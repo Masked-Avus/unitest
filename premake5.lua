@@ -14,7 +14,7 @@ workspace "unitest"
         language "C++"
         cppdialect "C++11"
         location ("build/%{prj.name}/" .. _ACTION)
-        targetdir "bin/%{prj.name}/${prj.cfg}"
+        targetdir "bin/%{prj.name}/%{cfg.buildcfg}"
         objdir "obj/"
         files {
             "tests/**.hpp",
