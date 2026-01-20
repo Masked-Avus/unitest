@@ -1,13 +1,13 @@
 #pragma once
 
 #include <string>
+#include <cstring>
 #include <vector>
 #include <exception>
-#include <cstring>
 #include <ostream>
 #include <iostream>
 #include <functional>
-#include <initializer_list>
+#include <chrono>
 
 namespace unitest {
 
@@ -389,6 +389,7 @@ public:
 
     void go() {
         reset();
+        output_current_date_time();
 
         for (std::size_t i {}; i < m_tests.size(); ++i) {
             Group test_group { m_tests[i] };
@@ -403,7 +404,7 @@ public:
 
         (*m_output)
             << m_total_successes << '/' << m_test_count << " tests succeeded and "
-            << m_total_failures << '/' << m_test_count << " failed.\n";
+            << m_total_failures << '/' << m_test_count << " failed\n";
     }
     
 private:
@@ -435,6 +436,11 @@ private:
                     << "      -> assertion #" << failure.get_assertion_number() << ':' << failure.get_failure_message() << '\n';
             }
         }
+    }
+
+    void output_current_date_time() {
+        std::time_t time { std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) };
+        (*m_output) << "Tests started on " << std::ctime(&time);
     }
 
 #undef UNITEST_UNGROUPED_TESTS_NAME
