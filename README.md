@@ -13,7 +13,7 @@ To use UniTest, first fire up a `unitest::Runner` object.
 unitest::Runner tests {};
 ```
 
-To add a test to the `Runner`, call the `add` function, which requires the name of the subject of your test, a string denoting what result you expect for a success, and a test function as parameters. As a convention, use a `PascalCase` containing the thing being tested and the expected result, with both separated by an underscore. As for the test function, you can pass either a raw function pointer or a lambda function.
+To add a test to the `Runner`, call the `add` function, which requires the name of the subject of your test, a string denoting what result you expect for a success, and a test function as parameters. As for the test function, you can pass either a raw function pointer or a lambda function. Whether using a raw function pointer or named function objects, a convention used by the author for naming test functions is to use a `PascalCase` name that contains both the thing being tested and the expected result, with the two separated by an underscore. 
 
 ```cpp
 // You can pass in a raw function pointer...
@@ -40,7 +40,7 @@ const int failure_count { tests.go() };
 std::cout << "Tests failed: " << failure_count << std::endl;
 ```
 
-*Displaying the number of failed tests is not really necessary, as `Runner` already does that after a pass.*
+*Displaying the number of failed tests is not necessary, as `Runner` already does that after a pass.*
 
 ### Alternative Output
 
