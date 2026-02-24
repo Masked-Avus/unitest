@@ -118,3 +118,7 @@ int main() {
     return tests.run();
 }
 ```
+
+## Installation
+
+UniTest consists of just a single source file. All you have to do is copy the `unitest.hpp` file within `src/` into your project.
