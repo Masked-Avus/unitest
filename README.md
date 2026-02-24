@@ -2,7 +2,9 @@
 
 ## Description
 
-UniTest is a simple header-only library for unit-testing C++ code. It is compatible with C++11 and higher and is comprised only of a single header file. Just `#include "unitest.hpp"`, and you are good to go! This library uses the power of templates to provide an explicit, type-safe mechanism for running unit tests.
+UniTest is a simple header-only library for unit testing C++ code. This library is based on the idea that doing something as straightforward as setting up unit tests should be as hassle-free as possible, without being weighed down by heavy dependencies to accomplish that task. To meet that desire, UniTest consists of a single header file; just `#include "unitest.hpp"`, and you are good to go! Also, rather than relying on a bunch of macros, this library uses the power of templates to provide an explicit, type-safe mechanism for running unit tests.
+
+UniTest is designed to be compatible with C++11 and later.
 
 ## Use
 ### Basics
@@ -13,7 +15,7 @@ To use UniTest, first fire up a `unitest::Runner` object.
 unitest::Runner tests {};
 ```
 
-To add a test to the `Runner`, call the `add` function, which requires the name of the subject of your test, a string denoting what result you expect for a success, and a test function as parameters. As for the test function, you can pass either a raw function pointer or a lambda function. Whether using a raw function pointer or named function objects, a convention used by the author for naming test functions is to use a `PascalCase` name that contains both the thing being tested and the expected result, with the two separated by an underscore. 
+To add a test to the `Runner`, call the `add` function, which requires the name of your test subject, a string denoting what result you expect for a success, and a test function as parameters. As for the test function, you can pass either a raw function pointer or a lambda function. Whether using a raw function pointer or named function objects, a convention used by the author for naming test functions is to use a `PascalCase` name that contains both the thing being tested and the expected result, with the two separated by an underscore. 
 
 ```cpp
 // You can pass in a raw function pointer...
@@ -24,7 +26,7 @@ tests.add({ "this_other_function", "passes", [](const unitest::Test& assert) {
 }});
 ```
 
-Should you run these tests, they will be placed under the `[UNGROUPED]` label within the output. That is because UniTest organizes all tests by `Group`. What we have done so far is add tests that are labelled as not belonging to a `Group`. To facilitate larger projects, we can have 
+Should you run these tests, they will be placed under the `[UNGROUPED]` label within the output. That is because UniTest organizes all tests by `Group`. What we have done so far is add tests that are labelled as not belonging to a user-defined `Group`. To facilitate larger projects, we can define an explicit test `Group` and `add` it to the `Runner`.
 
 ```cpp
 tests.add("My_Class", {
@@ -33,10 +35,10 @@ tests.add("My_Class", {
 });
 ```
 
-Once all your tests are loaded and ready to go, just call the `go` method, which returns the number of failed tests.
+Once all your tests are loaded and ready to go, just call the `run` method, which returns the number of failed tests.
 
 ```cpp
-const int failure_count { tests.go() };
+const int failure_count { tests.run() };
 std::cout << "Tests failed: " << failure_count << std::endl;
 ```
 
@@ -72,13 +74,13 @@ void ThisFunction_Passes(const unitest::Test& assert) {
 int main() {
     unitest::Runner tests {};
 
-    // Ungrouped tests.
+    // Add ungrouped tests.
     tests.add("this_function", "returns expected number", ThisFunction_Passes);
     tests.add("this_other_function", "returns expected calculation", [](const unitest::Test& assert) {
         assert.are_equal(this_other_function(2, 10, 2), 10);
     });
 
-    // Grouped tests.
+    // Add grouped tests.
     tests.add({
         "My_Type",
         {
