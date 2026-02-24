@@ -127,6 +127,8 @@ To create and run this project's unit tests, you will need to have Premake insta
 premake5 gmake
 ```
 
+Alternatively, if you have PowerShell and Make installed, you can use the `build.ps1` file to build the test projects and use the `run.ps1` file to run them.
+
 ## Installation
 
 UniTest consists of just a single source file. All you have to do is copy the `unitest.hpp` file within `src/` into your project and `#include` it.
