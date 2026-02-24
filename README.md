@@ -119,6 +119,14 @@ int main() {
 }
 ```
 
+## Building the Unit Tests
+
+To create and run this project's unit tests, you will need to have Premake installed. If you do, use it to run the premake5.lua file with your toolset of choice and run the generated build files. Below is an example using Makefiles.
+
+```
+premake5 gmake
+```
+
 ## Installation
 
 UniTest consists of just a single source file. All you have to do is copy the `unitest.hpp` file within `src/` into your project and `#include` it.
