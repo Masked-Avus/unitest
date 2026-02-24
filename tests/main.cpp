@@ -1,31 +1,28 @@
 #include "unitest.hpp"
 #include "utilities.hpp"
 #include <iostream>
-
 #if UNITEST_TESTS_FILE_OUTPUT
     #include <fstream>
-
-    constexpr const char g_output_file[] { "../output.txt" };
 #endif
-
+    
 using namespace unitest;
 
 int main() {
+    Runner tests {};
+    
 #if UNITEST_TESTS_FILE_OUTPUT
-    std::ofstream file { g_output_file };
+    constexpr const char output_file[] { "../output.txt" };
+
+    std::ofstream file { output_file };
 
     if (!file.is_open()) {
-        std::cerr << "ERROR - Could not open " << g_output_file << '\n';
+        std::cerr << "ERROR - Could not open " << output_file << '\n';
         return 1;
     }
-#endif
 
-    Runner tests {
-#if UNITEST_TESTS_FILE_OUTPUT
-        &file
+    tests.set_output(&file);
 #endif
-    };
-
+    
     tests.add({
         "add",
         "adds two numbers",

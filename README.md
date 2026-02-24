@@ -46,12 +46,20 @@ std::cout << "Tests failed: " << failure_count << std::endl;
 
 ### Alternative Output
 
-By default, `Runner` outputs to the console, but if you want to output to a different destination instead (like a file), you can pass a pointer to a `std::ostream` object into `Runner`'s constructor. *`Runner` does not take ownership of the `ostream`.*
+By default, `Runner` outputs to the console, but if you want to output to a different destination instead (like a file), you can pass a pointer to a `std::ostream` object into `Runner`'s constructor or its `set_output` method. *`Runner` does not take ownership of the `ostream`.*
 
 ```cpp
 std::ostream file { "output.txt" };
 
 unitest::Runner tests { &file };
+```
+
+```cpp
+unitest::Runner tests {};
+
+std::ostream file { "output.txt" };
+
+tests.set_output(&file);
 ```
 
 ## Example

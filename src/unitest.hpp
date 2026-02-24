@@ -366,6 +366,7 @@ public:
     std::size_t get_success_count() const { return m_total_successes; }
     std::size_t get_failure_count() const { return m_total_failures; }
     std::size_t get_test_count() const { return m_test_count; }
+    void set_output(std::ostream* output) { m_output = output; };
 
     void add(const Test& test) {
         m_tests[UNITEST_UNGROUPED_TESTS_LOCATION].add(test);
