@@ -2,7 +2,7 @@
 
 ## Description
 
-UniTest is a simple header-only library for unit testing C++ code. This library is based on the idea that doing something as straightforward as setting up unit tests should be as hassle-free as possible. The developer should not need to be weighed down by heavy dependencies to just to accomplish that task. To meet that desire, UniTest consists of a single header file; just `#include "unitest.hpp"`, and you are good to go! Also, rather than relying on a bunch of macros, this library uses the power of templates to provide an explicit, type-safe mechanism for running unit tests.
+UniTest is a simple, header-only library for unit testing C++ code. This library is based on the idea that doing something as straightforward as setting up unit tests should be as hassle-free as possible. The developer should not need to be weighed down by heavy dependencies to just to accomplish that task. To meet that desire, UniTest consists of a single header file; just `#include "unitest.hpp"`, and you are good to go! Also, rather than relying on a bunch of macros, this library uses the power of templates to provide an explicit, type-safe mechanism for running unit tests.
 
 UniTest is designed to be compatible with C++11 and later.
 
@@ -121,4 +121,5 @@ int main() {
 
 ## Installation
 
-UniTest consists of just a single source file. All you have to do is copy the `unitest.hpp` file within `src/` into your project.
+UniTest consists of just a single source file. All you have to do is copy the `unitest.hpp` file within `src/` into your project and `#include` it.
+
