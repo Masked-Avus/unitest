@@ -7,6 +7,11 @@
     
 using namespace unitest;
 
+void TestWithFunctionPointer_Passes(const Test& assert) {
+    assert.is_true(true);
+    assert.is_false(false);
+}
+
 int main() {
     Runner tests {};
     
@@ -23,6 +28,13 @@ int main() {
     tests.set_output(&file);
 #endif
     
+    // Adding tests that use a raw function pointer instead of a lambda.
+    tests.add({
+        "TestWithFunctionPointer_Passes",
+        "passes",
+        TestWithFunctionPointer_Passes
+    });
+
     tests.add({
         "add",
         "adds two numbers",
