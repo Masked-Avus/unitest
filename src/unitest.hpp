@@ -14,8 +14,9 @@ namespace unitest {
 class Test;
 
 /*
-We provide this to allow for compatibility with C++11. For the sake of simplicity, unlike std::string_view,
-    this take on a string view does not allow any way of manipulating the view's size.
+We provide this to allow for compatibility with C++11. For the sake of simplicity, unlike
+    std::string_view, this take on a string view does not allow any way of manipulating the view's
+    size.
 */
 class String_View final {
 public:
@@ -280,17 +281,27 @@ private:
 };
 
 inline std::ostream& operator <<(std::ostream& output, const Test& test) {
-    output << "Test(" << test.m_subject << ',' << test.m_expected_result << ',' << to_string(test.m_status) << ')';
+    output << "Test("
+        << test.m_subject << ',' << test.m_expected_result << ',' << to_string(test.m_status)
+        << ')';
     return output;
 }
 
-inline Assertion_Failure::Assertion_Failure(const Test& associated_test, const std::string& message, int assertion_number) :
+inline Assertion_Failure::Assertion_Failure(
+    const Test& associated_test,
+    const std::string& message,
+    int assertion_number
+    ) :
     m_test_subject { associated_test.get_name() },
     m_test_expected_result { associated_test.get_expected_result() },
     m_failure_message { message },
     m_assertion_number { assertion_number } { }
 
-inline Assertion_Failure::Assertion_Failure(const Test& associated_test, std::string&& message, int assertion_number) :
+inline Assertion_Failure::Assertion_Failure(
+    const Test& associated_test,
+    std::string&& message,
+    int assertion_number
+    ) :
     m_test_subject { associated_test.get_name() },
     m_test_expected_result { associated_test.get_expected_result() },
     m_failure_message { std::forward<std::string>(message) },
@@ -425,16 +436,19 @@ private:
     }
 
     void output_results(const Group& tests) {
-        (*m_output) << "  Successes: " << tests.get_success_count() << '/' << tests.get_test_count() << '\n';
+        (*m_output) << "  Successes: "
+            << tests.get_success_count() << '/' << tests.get_test_count() << '\n';
 
         if (tests.get_success_count() != tests.get_test_count()) {
-            (*m_output) << "  Failures:  " << tests.get_failure_count() << '/' << tests.get_test_count() << '\n';
+            (*m_output) << "  Failures:  "
+                << tests.get_failure_count() << '/' << tests.get_test_count() << '\n';
 
             for (const Assertion_Failure& failure : tests.get_failure_records()) {
                 (*m_output)
                     << "    - " << failure.get_subject() << '\n'
                     << "      -> " << failure.get_expected_result() << '\n'
-                    << "      -> assertion #" << failure.get_assertion_number() << ": " << failure.get_failure_message() << '\n';
+                    << "      -> assertion #" << failure.get_assertion_number() << ": "
+                        << failure.get_failure_message() << '\n';
             }
         }
     }

@@ -27,8 +27,8 @@ int main() {
         "add",
         "adds two numbers",
         [](const Test& assert) {
-            const int x { 10 };
-            const int y { 8 };
+            constexpr int x { 10 };
+            constexpr int y { 8 };
             
             const int expected { x + y };
             const int actual { tests::add(x, y) };
@@ -42,8 +42,8 @@ int main() {
         "sub",
         "subtracts two numbers",
         [](const Test& assert) {
-            const int x { 10 };
-            const int y { 8 };
+            constexpr int x { 10 };
+            constexpr int y { 8 };
 
             const int expected { (x - y) + 1 };
             const int actual { tests::sub(x, y) };
@@ -74,7 +74,8 @@ int main() {
         "mod",
         "does not throw exception if attempting to divide by zero",
         [](const Test& assert) {
-            // These extra initial asserts are used to show that the assertion count per-test is being incremented.
+            // These extra initial asserts are used to show that the assertion count per-test is
+            //     being incremented.
             assert.is_true(true);
             assert.is_false(false);
 
