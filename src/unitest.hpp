@@ -123,21 +123,15 @@ public: // Assertions
     // Assertions are called by the test object passed into a user-defined test function.
 
     template<typename T>
-    void are_equal(const T& expected, const T& actual, String_View message) const {
-        ++m_assertion_count;
-        internal_assert(expected == actual, message);
-    }
-    
-    template<typename T>
     void are_equal(const T& expected, const T& actual) const {
         ++m_assertion_count;
         internal_assert(expected == actual, "equality");
     }
     
     template<typename T>
-    void are_not_equal(const T& expected, const T& actual, String_View message) const {
+    void are_equal(const T& expected, const T& actual, String_View message) const {
         ++m_assertion_count;
-        internal_assert(expected != actual, message);
+        internal_assert_with_custom_message(expected == actual, message);
     }
     
     template<typename T>
@@ -145,21 +139,43 @@ public: // Assertions
         ++m_assertion_count;
         internal_assert(expected != actual, "inequality");
     }
-
+    
+    template<typename T>
+    void are_not_equal(const T& expected, const T& actual, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(expected != actual, message);
+    }
+    
     void is_true(bool expression) const {
         ++m_assertion_count;
         internal_assert(expression, "true", "false");
     }
     
+    void is_true(bool expression, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(expression, message);
+    }
+
     void is_false(bool expression) const {
         ++m_assertion_count;
         internal_assert(!expression, "false", "true");
     }
-    
+
+    void is_false(bool expression, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(!expression, message);
+    }
+
     template<typename T>
     void is_nullptr(const T* ptr) const {
         ++m_assertion_count;
         internal_assert(ptr == nullptr, "nullptr");
+    }
+    
+    template<typename T>
+    void is_nullptr(const T* ptr, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(ptr == nullptr, message);
     }
     
     template<typename T>
@@ -168,16 +184,10 @@ public: // Assertions
         internal_assert(ptr != nullptr, "no nullptr");
     }
     
-    template<typename Exception_Type>
-    void throws_exception(std::function<void()> function, String_View message) const {
+    template<typename T>
+    void is_not_nullptr(const T* ptr, String_View message) const {
         ++m_assertion_count;
-
-        try {
-            function();
-            internal_assert(false, message);
-        }
-        catch (Exception_Type& exception) {
-        }
+        internal_assert_with_custom_message(ptr != nullptr, message);
     }
     
     template<typename Exception_Type>
@@ -191,19 +201,19 @@ public: // Assertions
         catch (Exception_Type& exception) {
         }
     }
-    
+
     template<typename Exception_Type>
-    void throws_no_exception(std::function<void()> function, String_View message) const {
+    void throws_exception(std::function<void()> function, String_View message) const {
         ++m_assertion_count;
 
         try {
             function();
+            internal_assert_with_custom_message(false, message);
         }
-        catch (Exception_Type exception) {
-            internal_assert(false, message);
+        catch (Exception_Type& exception) {
         }
     }
-
+    
     template<typename Exception_Type>
     void throws_no_exception(std::function<void()> function) const {
         ++m_assertion_count;
@@ -213,6 +223,18 @@ public: // Assertions
         }
         catch (Exception_Type exception) {
             internal_assert(false, "no exception to be thrown");
+        }
+    }
+    
+    template<typename Exception_Type>
+    void throws_no_exception(std::function<void()> function, String_View message) const {
+        ++m_assertion_count;
+
+        try {
+            function();
+        }
+        catch (Exception_Type exception) {
+            internal_assert_with_custom_message(false, message);
         }
     }
     
@@ -243,15 +265,22 @@ private:
         
     void flag_success() { m_status = Status::Success; }
     void flag_failure() { m_status = Status::Failure; }
-    
+
     void internal_assert(bool is_true, String_View expected) const {
         if (!is_true) {
             throw Assertion_Failure(
                 *this,
-                std::forward<std::string>(std::string()
-                    .append("expected ")
-                    .append(expected)
-                ),
+                std::forward<std::string>(std::string().append("expected ").append(expected)),
+                m_assertion_count
+            );
+        }
+    }
+
+    void internal_assert_with_custom_message(bool is_true, String_View message) const {
+        if (!is_true) {
+            throw Assertion_Failure(
+                *this,
+                std::forward<std::string>(std::string().append(message)),
                 m_assertion_count
             );
         }

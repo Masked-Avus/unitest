@@ -83,6 +83,18 @@ int main() {
         }
     });
 
+    // Testing custom assertion failure messages.
+    tests.add({
+        "div",
+        "throws an exception if attempting to divide by zero",
+        [](const Test& assert) {
+            assert.throws_exception<std::runtime_error>([]() {
+                tests::mod(10, 5); },
+                "LOL, assertion failure"
+            );
+        }
+    });
+
     tests.add(tests::get_entity_tests());
 
     tests.run();
