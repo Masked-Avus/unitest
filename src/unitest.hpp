@@ -433,7 +433,7 @@ private:
                 (*m_output)
                     << "    - " << failure.get_subject() << '\n'
                     << "      -> " << failure.get_expected_result() << '\n'
-                    << "      -> assertion #" << failure.get_assertion_number() << ':' << failure.get_failure_message() << '\n';
+                    << "      -> assertion #" << failure.get_assertion_number() << ": " << failure.get_failure_message() << '\n';
             }
         }
     }
