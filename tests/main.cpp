@@ -68,7 +68,7 @@ int main() {
 
     tests.add(tests::get_entity_tests());
 
-    tests.go();
+    tests.run();
 
     return 0;
 }

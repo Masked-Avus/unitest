@@ -387,7 +387,7 @@ public:
         m_test_count += m_tests.back().get_test_count(); 
     }
 
-    void go() {
+    void run() {
         reset();
         output_current_date_time();
 
