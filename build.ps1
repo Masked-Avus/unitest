@@ -1,4 +1,4 @@
 premake5 gmake
 Set-Location ./build
-make
+make # Alternative: mingw32-make
 Set-Location ..
