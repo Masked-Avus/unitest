@@ -11,7 +11,7 @@ int main() {
     Runner tests {};
     
 #if UNITEST_TESTS_FILE_OUTPUT
-    constexpr const char output_file[] { "../output.txt" };
+    constexpr const char output_file[] { "./output.txt" };
 
     std::ofstream file { output_file };
 
