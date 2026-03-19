@@ -1,4 +1,4 @@
-// Version: 1.0.0
+// Version: 1.0.1
 
 #pragma once
 
@@ -297,7 +297,7 @@ private:
                     .append(expected)
                     .append(" but got ")
                     .append(actual)
-                    .append("instead\n")
+                    .append(" instead\n")
                 ),
                 m_assertion_count
             );

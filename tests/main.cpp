@@ -107,6 +107,15 @@ int main() {
         }
     });
 
+    // This supposed to fail.
+    tests.add({
+        "boolean test",
+        "fails",
+        [](const Test& assert) {
+            assert.is_true(false);
+        }
+    });
+
     tests.add(tests::get_entity_tests());
 
     tests.run();
