@@ -1,11 +1,97 @@
 #include "unitest.hpp"
-#include "utilities.hpp"
+#include <string>
+#include <stdexcept>
 #include <iostream>
 #if UNITEST_TESTS_FILE_OUTPUT
     #include <fstream>
 #endif
-    
+
 using namespace unitest;
+
+namespace tests {
+
+class Entity final {
+public:
+    Entity(const std::string& name, int id) :
+        m_name { name },
+        m_id { id } { }
+
+    const std::string& get_name() const { return m_name; }
+    const int& get_id() const { return m_id; }
+
+    bool operator ==(const Entity& other) { return get_id() == other.get_id(); }
+    bool operator !=(const Entity& other) { return get_id() != other.get_id(); }
+
+    int get_hash() const { return m_id ^ sizeof(int); }
+
+private:
+    std::string m_name {};
+    int m_id {};
+};
+
+unitest::Group get_entity_tests() {
+    return unitest::Group("Entity")
+    .add({
+        "Entity::get_hash()",
+        "returns expected hash value",
+        [](const unitest::Test& assert) {
+            const int value { 100 };
+            const tests::Entity entity { "something", value };
+            
+            assert.are_equal(entity.get_hash(), static_cast<int>(value ^ sizeof(int)));
+        }
+    })
+    .add({
+        "Entity::get_name()",
+        "has expected name",
+        [](const unitest::Test& assert) {
+            const std::string name { "Bob" };
+            const tests::Entity entity { name, 8 };
+
+            assert.are_equal(name, entity.get_name());
+        }
+    })
+    .add({
+        "Entity::get_id()",
+        "has expected ID",
+        [](const unitest::Test& assert) {
+            const int id { 1000 };
+            const tests::Entity entity { "another", id };
+
+            assert.are_equal(id, entity.get_id());
+        }
+    });
+}
+
+int add(int x, int y) {
+    return x + y;
+}
+
+int sub(int x, int y) {
+    return x + y;
+}
+
+int mul(int x, int y) {
+    return x * y;
+}
+
+int div(int x, int y) {
+    if (y == 0) {
+        throw std::runtime_error("Cannot divide by 0");
+    }
+
+    return x / y;
+}
+
+int mod(int x, int y) {
+    if (y == 0) {
+        throw std::runtime_error("Cannot divide by 0");
+    }
+
+    return x % y;
+}
+
+}
 
 void TestWithFunctionPointer_Passes(const Test& assert) {
     assert.is_true(true);
