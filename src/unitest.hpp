@@ -191,7 +191,7 @@ public: // Assertions
         ++m_assertion_count;
         internal_assert_with_custom_message(ptr != nullptr, message);
     }
-    
+
     template<typename Exception_Type>
     void throws_exception(std::function<void()> function) const {
         ++m_assertion_count;
@@ -221,7 +221,54 @@ public: // Assertions
             internal_assert_with_custom_message(false, message); 
         }
     }
+
+    void throws_any_exception(std::function<void()> function) const {
+        ++m_assertion_count;
+
+        try {
+            function();
+            internal_assert(false, "an exception to be thrown");
+        }
+        catch (...) {
+        }
+    }
+
+    void throws_any_exception(std::function<void()> function, String_View message) const {
+        ++m_assertion_count;
+
+        try {
+            function();
+            internal_assert_with_custom_message(false, message);
+        }
+        catch (...) {
+        }
+    }
+
+    // Test for no assertions, period.
+    void throws_no_exception(std::function<void()> function) const {
+        ++m_assertion_count;
+
+        try {
+            function();
+        }
+        catch (...) {
+            internal_assert(false, "no exception to be thrown");
+        }
+    }
+
+    // Test for no assertions, period.
+    void throws_no_exception(std::function<void()> function, String_View message) const {
+        ++m_assertion_count;
+
+        try {
+            function();
+        }
+        catch (...) {
+            internal_assert_with_custom_message(false, message);
+        }
+    }
     
+    // Test for particular exception.
     template<typename Exception_Type>
     void throws_no_exception(std::function<void()> function) const {
         ++m_assertion_count;
@@ -234,6 +281,7 @@ public: // Assertions
         }
     }
     
+    // Test for particular exception.
     template<typename Exception_Type>
     void throws_no_exception(std::function<void()> function, String_View message) const {
         ++m_assertion_count;

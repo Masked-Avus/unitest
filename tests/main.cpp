@@ -229,6 +229,27 @@ int main() {
         }
     });
 
+    tests.add({
+        "any exception test",
+        "succeeds with any assertion that is thrown",
+        [](const Test& assert) {
+            assert.throws_any_exception([](){
+                tests::throw_custom_base_exception();
+            });
+        }
+    });
+
+    // This is supposed to fail.
+    tests.add({
+        "no exception test",
+        "fails with no assertions thrown",
+        [](const Test& assert) {
+            assert.throws_no_exception([]() {
+                tests::throw_custom_base_exception();
+            });
+        }
+    });
+
     tests.run();
 
     return 0;
