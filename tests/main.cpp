@@ -250,6 +250,16 @@ int main() {
         }
     });
 
+    // This is supposed to fail.
+    tests.add({ "equality test", "fails", [](const Test& assert) {
+        assert.are_equal(8, 10);
+    }});
+    
+    // This is supposed to fail.
+    tests.add({ "inequality test", "fails", [](const Test& assert) {
+        assert.are_not_equal(8.8, 8.8);
+    }});
+
     tests.run();
 
     return 0;

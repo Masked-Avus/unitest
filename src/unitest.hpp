@@ -10,10 +10,16 @@
 #include <exception>
 #include <ostream>
 #include <iostream>
+#include <sstream>
 #include <functional>
 #include <chrono>
 
 namespace unitest {
+
+#define UNITEST_EQUALITY_STRING "equality"
+#define UNITEST_INEQUALITY_STRING "inequality"
+#define UNITEST_TRUE_STRING "true"
+#define UNITEST_FALSE_STRING "false"
 
 class Test;
 
@@ -129,7 +135,7 @@ public: // Assertions
     template<typename T>
     void are_equal(const T& expected, const T& actual) const {
         ++m_assertion_count;
-        internal_assert(expected == actual, "equality");
+        internal_assert(expected == actual, UNITEST_EQUALITY_STRING); 
     }
     
     template<typename T>
@@ -141,7 +147,7 @@ public: // Assertions
     template<typename T>
     void are_not_equal(const T& expected, const T& actual) const {
         ++m_assertion_count;
-        internal_assert(expected != actual, "inequality");
+        internal_assert(expected != actual, UNITEST_INEQUALITY_STRING); 
     }
     
     template<typename T>
@@ -152,7 +158,7 @@ public: // Assertions
     
     void is_true(bool expression) const {
         ++m_assertion_count;
-        internal_assert(expression, "true", "false");
+        internal_assert(expression, UNITEST_TRUE_STRING, UNITEST_FALSE_STRING);
     }
     
     void is_true(bool expression, String_View message) const {
@@ -162,7 +168,7 @@ public: // Assertions
 
     void is_false(bool expression) const {
         ++m_assertion_count;
-        internal_assert(!expression, "false", "true");
+        internal_assert(!expression, UNITEST_FALSE_STRING, UNITEST_TRUE_STRING);
     }
 
     void is_false(bool expression, String_View message) const {
@@ -342,16 +348,6 @@ private:
         }
     }
 
-    void internal_assert_with_custom_message(bool is_true, String_View message) const {
-        if (!is_true) {
-            throw Assertion_Failure(
-                *this,
-                std::forward<std::string>(std::string().append(message)),
-                m_assertion_count
-            );
-        }
-    }
-
     void internal_assert(bool is_true, String_View expected, String_View actual) const {
         if (!is_true) {
             throw Assertion_Failure(
@@ -363,6 +359,37 @@ private:
                     .append(actual)
                     .append(" instead")
                 ),
+                m_assertion_count
+            );
+        }
+    }
+
+    void internal_assert_with_custom_message(bool is_true, String_View message) const {
+        if (!is_true) {
+            throw Assertion_Failure(
+                *this,
+                std::forward<std::string>(std::string().append(message)),
+                m_assertion_count
+            );
+        }
+    }
+
+    template<typename T>
+    void internal_assert_with_value_printing(
+        bool is_true,
+        const T& expected,
+        const T& actual,
+        String_View operation
+        ) const {
+
+        if (!is_true) {
+            std::ostringstream message {};
+            message
+                << "expected " << operation << " --- "
+                << expected << " (expected) vs. " << actual << " (actual)";
+            throw Assertion_Failure(
+                *this,
+                std::forward<std::string>(message.str()),
                 m_assertion_count
             );
         }
@@ -556,5 +583,135 @@ private:
 #undef UNITEST_UNGROUPED_TESTS_NAME
 #undef UNITEST_UNGROUPED_TESTS_LOCATION
 };
+
+
+//-------- Template Specializations (for extra assertion information)
+
+// EQUALITY
+
+template<>
+inline void Test::are_equal<int>(const int& expected, const int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<long>(const long& expected, const long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<long long>(const long long& expected, const long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<short>(const short& expected, const short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<float>(const float& expected, const float& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_equal<double>(const double& expected, const double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
+// INEQUALITY
+
+template<>
+inline void Test::are_not_equal<int>(const int& expected, const int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<long>(const long& expected, const long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<long long>(const long long& expected, const long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<short>(const short& expected, const short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<float>(const float& expected, const float& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<double>(const double& expected, const double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+#undef UNITEST_EQUALITY_STRING
+#undef UNITEST_INEQUALITY_STRING
 
 }
