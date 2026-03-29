@@ -200,7 +200,10 @@ public: // Assertions
             function();
             internal_assert(false, "an exception to be thrown");
         }
-        catch (Exception_Type& exception) {
+        catch (const Exception_Type& exception) {
+        }
+        catch (...) {
+            internal_assert_with_custom_message(false, "exception of different type than expected was thrown");
         }
     }
 
@@ -212,7 +215,10 @@ public: // Assertions
             function();
             internal_assert_with_custom_message(false, message);
         }
-        catch (Exception_Type& exception) {
+        catch (const Exception_Type& exception) {
+        }
+        catch (...) {
+            internal_assert_with_custom_message(false, message); 
         }
     }
     
@@ -223,7 +229,7 @@ public: // Assertions
         try {
             function();
         }
-        catch (Exception_Type exception) {
+        catch (const Exception_Type& exception) {
             internal_assert(false, "no exception to be thrown");
         }
     }
@@ -235,7 +241,7 @@ public: // Assertions
         try {
             function();
         }
-        catch (Exception_Type exception) {
+        catch (const Exception_Type& exception) {
             internal_assert_with_custom_message(false, message);
         }
     }
@@ -297,7 +303,7 @@ private:
                     .append(expected)
                     .append(" but got ")
                     .append(actual)
-                    .append(" instead\n")
+                    .append(" instead")
                 ),
                 m_assertion_count
             );

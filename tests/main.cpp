@@ -91,6 +91,20 @@ int mod(int x, int y) {
     return x % y;
 }
 
+class Custom_Base_Exception {
+public:
+    Custom_Base_Exception(const char* message) : m_message { message } { }
+
+    const char* what() const { return m_message.data(); }
+
+private:
+    std::string m_message {};
+};
+
+void throw_custom_base_exception() {
+    throw Custom_Base_Exception("BASE EXCEPTION");
+}
+
 }
 
 void TestWithFunctionPointer_Passes(const Test& assert) {
@@ -193,7 +207,7 @@ int main() {
         }
     });
 
-    // This supposed to fail.
+    // This is supposed to fail.
     tests.add({
         "boolean test",
         "fails",
@@ -203,6 +217,17 @@ int main() {
     });
 
     tests.add(tests::get_entity_tests());
+
+    // This is supposed to fail.
+    tests.add({
+        "throw assertion",
+        "reports unexpected excpetion type upon throw",
+        [](const Test& assert) {
+            assert.throws_exception<std::runtime_error>([]() {
+                tests::throw_custom_base_exception();
+            });
+        }
+    });
 
     tests.run();
 
