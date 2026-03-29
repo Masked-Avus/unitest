@@ -221,7 +221,7 @@ int main() {
     // This is supposed to fail.
     tests.add({
         "throw assertion",
-        "reports unexpected excpetion type upon throw",
+        "reports unexpected exception type upon throw",
         [](const Test& assert) {
             assert.throws_exception<std::runtime_error>([]() {
                 tests::throw_custom_base_exception();

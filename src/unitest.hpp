@@ -192,6 +192,7 @@ public: // Assertions
         internal_assert_with_custom_message(ptr != nullptr, message);
     }
 
+    // Test for particular exception type, failing with any other type or no exception at all.
     template<typename Exception_Type>
     void throws_exception(std::function<void()> function) const {
         ++m_assertion_count;
@@ -207,6 +208,7 @@ public: // Assertions
         }
     }
 
+    // Test for particular exception type, failing with any other type or no exception at all.
     template<typename Exception_Type>
     void throws_exception(std::function<void()> function, String_View message) const {
         ++m_assertion_count;
@@ -222,6 +224,7 @@ public: // Assertions
         }
     }
 
+    // Test for any exceptions, period.
     void throws_any_exception(std::function<void()> function) const {
         ++m_assertion_count;
 
@@ -233,6 +236,7 @@ public: // Assertions
         }
     }
 
+    // Test for any exceptions, period.
     void throws_any_exception(std::function<void()> function, String_View message) const {
         ++m_assertion_count;
 
@@ -244,7 +248,7 @@ public: // Assertions
         }
     }
 
-    // Test for no assertions, period.
+    // Test for no exceptions, period.
     void throws_no_exception(std::function<void()> function) const {
         ++m_assertion_count;
 
@@ -256,7 +260,7 @@ public: // Assertions
         }
     }
 
-    // Test for no assertions, period.
+    // Test for no exceptions, period.
     void throws_no_exception(std::function<void()> function, String_View message) const {
         ++m_assertion_count;
 
@@ -268,7 +272,7 @@ public: // Assertions
         }
     }
     
-    // Test for particular exception.
+    // Test for particular exception type, ignoring others.
     template<typename Exception_Type>
     void throws_no_exception(std::function<void()> function) const {
         ++m_assertion_count;
@@ -277,11 +281,13 @@ public: // Assertions
             function();
         }
         catch (const Exception_Type& exception) {
-            internal_assert(false, "no exception to be thrown");
+            internal_assert(false, "no exception of specified type to be thrown");
+        }
+        catch (...) {
         }
     }
     
-    // Test for particular exception.
+    // Test for particular exception type, ignoring others.
     template<typename Exception_Type>
     void throws_no_exception(std::function<void()> function, String_View message) const {
         ++m_assertion_count;
@@ -291,6 +297,8 @@ public: // Assertions
         }
         catch (const Exception_Type& exception) {
             internal_assert_with_custom_message(false, message);
+        }
+        catch (...) {
         }
     }
     
