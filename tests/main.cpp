@@ -239,7 +239,6 @@ int main() {
         }
     });
 
-    // This is supposed to fail.
     tests.add({
         "no exception test",
         "fails with no assertions thrown",
@@ -250,20 +249,32 @@ int main() {
         }
     });
 
-    // This is supposed to fail.
+// Use of macros instead of constexpr variables to keep lambda declarations short.
+#define GREATER_NUMBER 10
+#define LESSER_NUMBER 5
+
     tests.add({ "equality test", "fails", [](const Test& assert) {
-        assert.are_equal(8, 10);
+        assert.are_equal(LESSER_NUMBER, GREATER_NUMBER);
     }});
-    // This is supposed to fail.
     tests.add({ "inequality test", "fails", [](const Test& assert) {
         assert.are_not_equal(8.8, 8.8);
     }});
     tests.add({ "greater-than test", "passes", [](const Test& assert) {
-        assert.is_greater(10, 5);
+        assert.is_greater(GREATER_NUMBER, LESSER_NUMBER);
     }});
     tests.add({ "greater-than test", "fails", [](const Test& assert) {
-        assert.is_greater(5, 10);
+        assert.is_greater(LESSER_NUMBER, GREATER_NUMBER);
     }});
+    tests.add({ "greater-than-or-equal test", "passes", [](const Test& assert) {
+        assert.is_greater_or_equal(GREATER_NUMBER, GREATER_NUMBER);
+        assert.is_greater_or_equal(GREATER_NUMBER, LESSER_NUMBER);
+    }});
+    tests.add({ "greater-than-or-equal test", "fails", [](const Test& assert) {
+        assert.is_greater_or_equal(LESSER_NUMBER, GREATER_NUMBER);
+    }});
+
+#undef GREATER_NUMBER
+#undef LESSER_NUMBER
 
     tests.run();
 
