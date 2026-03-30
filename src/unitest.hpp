@@ -34,7 +34,7 @@ We provide this to allow for compatibility with C++11. For the sake of simplicit
 */
 class String_View final {
 public:
-    String_View() { }
+    String_View() = default;
     String_View(const char* source) :
         m_data { source },
         m_length { std::strlen(source) } { }
@@ -443,13 +443,13 @@ private:
             message << expected;
 
             if (!expected_name.is_empty()) {
-                message << " (" << expected_name << ')';
+                message << ' ' << '(' << expected_name << ')';
             }
 
             message << " vs. " << actual;
 
             if (!expected_name.is_empty()) {
-                message << " (" << actual_name << ')';
+                message << ' ' << '(' << actual_name << ')';
             }
 
             throw Assertion_Failure(
