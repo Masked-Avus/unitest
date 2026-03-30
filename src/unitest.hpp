@@ -393,20 +393,47 @@ private:
         bool is_true,
         const T& expected,
         const T& actual,
-        String_View operation
+        String_View operation,
+        String_View expected_name = {},
+        String_View actual_name = {}
         ) const {
 
         if (!is_true) {
             std::ostringstream message {};
-            message
-                << "expected " << operation << " --- "
-                << expected << " (expected) vs. " << actual << " (actual)";
+            message << "expected " << operation << " --- ";
+            message << expected;
+
+            if (!expected_name.is_empty()) {
+                message << " (" << expected_name << ')';
+            }
+
+            message << " vs. " << actual;
+
+            if (!expected_name.is_empty()) {
+                message << " (" << actual_name << ')';
+            }
+
             throw Assertion_Failure(
                 *this,
                 std::forward<std::string>(message.str()),
                 m_assertion_count
             );
         }
+    }
+
+    template<typename T>
+    void internal_assert_with_value_printing_equality(const T& expected, const T& actual) const {
+        internal_assert_with_value_printing(expected == actual, expected, actual, "equality", "expected", "actual");
+    }
+
+    template<typename T>
+    void internal_assert_with_value_printing_inequality(const T& expected, const T& actual) const {
+        internal_assert_with_value_printing(expected != actual, expected, actual, "inequality", "not expected", "actual");
+    }
+
+    template<typename T>
+    void internal_assert_with_value_printing_greater(const T& greater, const T& lesser) const {
+        internal_assert_with_value_printing(greater > lesser, greater, lesser, "greater");
     }
 
     int get_assertion_count() const { return m_assertion_count; }
@@ -606,67 +633,67 @@ private:
 template<>
 inline void Test::are_equal<int>(const int& expected, const int& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<long>(const long& expected, const long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<long long>(const long long& expected, const long long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<short>(const short& expected, const short& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<float>(const float& expected, const float& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<double>(const double& expected, const double& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 template<>
 inline void Test::are_equal<long double>(const long double& expected, const long double& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+    internal_assert_with_value_printing_equality(expected, actual);
 }
 
 // INEQUALITY
@@ -674,67 +701,67 @@ inline void Test::are_equal<long double>(const long double& expected, const long
 template<>
 inline void Test::are_not_equal<int>(const int& expected, const int& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<long>(const long& expected, const long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<long long>(const long long& expected, const long long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<short>(const short& expected, const short& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<float>(const float& expected, const float& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<double>(const double& expected, const double& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 template<>
 inline void Test::are_not_equal<long double>(const long double& expected, const long double& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+    internal_assert_with_value_printing_inequality(expected, actual);
 }
 
 // GREATER
@@ -742,67 +769,67 @@ inline void Test::are_not_equal<long double>(const long double& expected, const 
 template<>
 inline void Test::is_greater<int>(const int& expected, const int& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<long>(const long& expected, const long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<long long>(const long long& expected, const long long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<short>(const short& expected, const short& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<float>(const float& expected, const float& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<double>(const double& expected, const double& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 template<>
 inline void Test::is_greater<long double>(const long double& expected, const long double& actual) const {
     ++m_assertion_count;
-    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 #undef UNITEST_EQUALITY_STRING
