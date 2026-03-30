@@ -243,7 +243,7 @@ int main() {
         "no exception test",
         "fails with no assertions thrown",
         [](const Test& assert) {
-            assert.throws_no_exception([]() {
+            assert.throws_no_exceptions([]() {
                 tests::throw_custom_base_exception();
             });
         }

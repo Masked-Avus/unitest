@@ -309,7 +309,7 @@ public: // Assertions
     }
 
     // Test for no exceptions, period.
-    void throws_no_exception(std::function<void()> function) const {
+    void throws_no_exceptions(std::function<void()> function) const {
         ++m_assertion_count;
 
         try {
@@ -321,7 +321,7 @@ public: // Assertions
     }
 
     // Test for no exceptions, period.
-    void throws_no_exception(std::function<void()> function, String_View message) const {
+    void throws_no_exceptions(std::function<void()> function, String_View message) const {
         ++m_assertion_count;
 
         try {
