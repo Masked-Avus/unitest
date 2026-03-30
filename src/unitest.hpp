@@ -18,6 +18,7 @@ namespace unitest {
 
 #define UNITEST_EQUALITY_STRING "equality"
 #define UNITEST_INEQUALITY_STRING "inequality"
+#define UNITEST_GREATER_STRING "greater"
 #define UNITEST_TRUE_STRING "true"
 #define UNITEST_FALSE_STRING "false"
 
@@ -154,6 +155,18 @@ public: // Assertions
     void are_not_equal(const T& expected, const T& actual, String_View message) const {
         ++m_assertion_count;
         internal_assert_with_custom_message(expected != actual, message);
+    }
+
+    template<typename T>
+    void is_greater(const T& greater, const T& lesser) const {
+        ++m_assertion_count;
+        internal_assert(greater > lesser, "greater");
+    }
+
+    template<typename T>
+    void is_greater(const T& greater, const T& lesser, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(greater > lesser, message);
     }
     
     void is_true(bool expression) const {
@@ -726,6 +739,7 @@ inline void Test::are_not_equal<long double>(const long double& expected, const 
 
 #undef UNITEST_EQUALITY_STRING
 #undef UNITEST_INEQUALITY_STRING
+#undef UNITEST_GREATER_STRING
 #undef UNITEST_TRUE_STRING
 #undef UNITEST_FALSE_STRING
 

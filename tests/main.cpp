@@ -260,6 +260,10 @@ int main() {
         assert.are_not_equal(8.8, 8.8);
     }});
 
+    tests.add({ "greater-than test", "passes", [](const Test& assert) {
+        assert.is_greater(10, 5);
+    }});
+
     tests.run();
 
     return 0;
