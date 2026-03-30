@@ -20,6 +20,7 @@ namespace unitest {
 #define UNITEST_INEQUALITY_STRING "inequality"
 #define UNITEST_GREATER_STRING "greater"
 #define UNITEST_GREATER_OR_EQUAL_STRING "greater or equal"
+#define UNITEST_LESS_STRING "less"
 #define UNITEST_TRUE_STRING "true"
 #define UNITEST_FALSE_STRING "false"
 
@@ -180,6 +181,18 @@ public: // Assertions
     void is_greater_or_equal(const T& greater, const T& lesser, String_View message) const {
         ++m_assertion_count;
         internal_assert_with_custom_message(greater >= lesser, message);
+    }
+
+    template<typename T>
+    void is_less(const T& lesser, const T& greater) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(lesser < greater, UNITEST_LESS_STRING);
+    }
+
+    template<typename T>
+    void is_less(const T& lesser, const T& greater, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(lesser < greater, message);
     }
 
     void is_true(bool expression) const {
@@ -456,6 +469,12 @@ private:
     template<typename T>
     void internal_assert_with_value_printing_greater_or_equal(const T& greater, const T& lesser) const {
         internal_assert_with_value_printing(greater >= lesser, greater, lesser, UNITEST_GREATER_OR_EQUAL_STRING);
+    }
+
+    // Used by template specializations for testing less than.
+    template<typename T>
+    void internal_assert_with_value_printing_less(const T& lesser, const T& greater) const {
+        internal_assert_with_value_printing(lesser < greater, lesser, greater, UNITEST_LESS_STRING);
     }
 
     int get_assertion_count() const { return m_assertion_count; }
@@ -922,9 +941,78 @@ inline void Test::is_greater_or_equal<long double>(const long double& expected, 
     internal_assert_with_value_printing_greater_or_equal(expected, actual);
 }
 
+// LESS 
+
+template<>
+inline void Test::is_less<int>(const int& expected, const int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<long>(const long& expected, const long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<long long>(const long long& expected, const long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<short>(const short& expected, const short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<float>(const float& expected, const float& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<double>(const double& expected, const double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
+template<>
+inline void Test::is_less<long double>(const long double& expected, const long double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
+}
+
 #undef UNITEST_EQUALITY_STRING
 #undef UNITEST_INEQUALITY_STRING
 #undef UNITEST_GREATER_STRING
+#undef UNITEST_LESS_STRING
 #undef UNITEST_GREATER_OR_EQUAL_STRING
 #undef UNITEST_TRUE_STRING
 #undef UNITEST_FALSE_STRING

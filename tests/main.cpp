@@ -272,6 +272,12 @@ int main() {
     tests.add({ "greater-than-or-equal test", "fails", [](const Test& assert) {
         assert.is_greater_or_equal(LESSER_NUMBER, GREATER_NUMBER);
     }});
+    tests.add({ "less-than test", "passes", [](const Test& assert) {
+        assert.is_less(LESSER_NUMBER, GREATER_NUMBER);
+    }});
+    tests.add({ "less-than test", "fails", [](const Test& assert) {
+        assert.is_less(GREATER_NUMBER, LESSER_NUMBER);
+    }});
 
 #undef GREATER_NUMBER
 #undef LESSER_NUMBER
