@@ -62,6 +62,27 @@ std::ostream file { "output.txt" };
 tests.set_output(&file);
 ```
 
+### Assertions
+
+As of the current version, UniTest provides the following assertions:
+
+| Assertion                     | Tests For                     |
+|-------------------------------|-------------------------------|
+| `Test::are_equal`             | equality (`==`)               |
+| `Test::are_not_equal`         | inequality (`!=`)             |
+| `Test::is_greater`            | greater than (`>`)            |
+| `Test::is_greater_or_equal`   | greater than or equal (`>=`)  |
+| `Test::is_less`               | less than (`<`)               |
+| `Test::is_less_or_equal`      | less than or equal (`<=`)     |
+| `Test::is_true`               | `true` value                  |
+| `Test:is_false`               | `false` value                 |
+| `Test::is_nullptr`            | `nullptr` value               |
+| `Test::is_not_nullptr`        | not `nullptr` value           |
+| `Test::throws_exception`      | specific exception type       |
+| `Test::throws_any_exception`  | any exception type            |
+| `Test::throws_no_exception` (non-template) | no exceptions thrown |
+| `Test::throws_no_exception` (template) | specific exception type not thrown |
+
 ## Example
 
 ```cpp
