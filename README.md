@@ -83,6 +83,40 @@ As of the current version, UniTest provides the following assertions:
 | `Test::throws_no_exception`   | specific exception type not thrown    |
 | `Test::throws_no_exceptions`  | no exceptions thrown                  |
 
+### Quirks
+
+When using the assertions `are_equal`, `are_not_equal`, `is_greater`, `is_greater_or_equal`, `is_less`, or `is_less_or_equal` for testing operator overloads that target user-defined types, said functions will only compile if their respective operator overloads are free-floating functions as opposed to member functions. This is due to issues with the `this` pointer.
+
+```cpp
+class Will_Not_Work {
+public:
+    Will_Not_Work(int value) : m_value { value } { }
+
+    // This will not work with UniTest.
+    bool operator ==(const Will_Not_Work& other) {
+        return m_value == other.m_value;
+    }
+
+private:
+    int m_value {};
+};
+
+class Will_Work {
+public:
+    Will_Work(int value) : m_value { value } { }
+
+    friend bool operator ==(const Will_Work&, const Will_Work&);
+
+private:
+    int m_value {};
+};
+
+// This will work with UniTest.
+bool operator ==(const Will_Work& left, const Will_Work& right) {
+    return left.m_value == right.m_value;
+}
+```
+
 ## Example
 
 ```cpp
