@@ -374,6 +374,7 @@ private:
         }
     }
 
+    // Used with template specializations of the assert functions for more clear failure messages.
     template<typename T>
     void internal_assert_with_value_printing(
         bool is_true,
@@ -649,6 +650,12 @@ inline void Test::are_equal<double>(const double& expected, const double& actual
     internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
 }
 
+template<>
+inline void Test::are_equal<long double>(const long double& expected, const long double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected == actual, expected, actual, UNITEST_EQUALITY_STRING);
+}
+
 // INEQUALITY
 
 template<>
@@ -707,6 +714,12 @@ inline void Test::are_not_equal<float>(const float& expected, const float& actua
 
 template<>
 inline void Test::are_not_equal<double>(const double& expected, const double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
+}
+
+template<>
+inline void Test::are_not_equal<long double>(const long double& expected, const long double& actual) const {
     ++m_assertion_count;
     internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
 }
