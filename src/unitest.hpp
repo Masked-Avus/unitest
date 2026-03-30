@@ -165,17 +165,23 @@ public: // Assertions
     }
 
     template<typename T>
+    void is_greater(const T& greater, const T& lesser, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(greater > lesser, message);
+    }
+    
+    template<typename T>
     void is_greater_or_equal(const T& greater, const T& lesser) const {
         ++m_assertion_count;
         internal_assert(greater >= lesser, UNITEST_GREATER_OR_EQUAL_STRING);
     }
 
     template<typename T>
-    void is_greater(const T& greater, const T& lesser, String_View message) const {
+    void is_greater_or_equal(const T& greater, const T& lesser, String_View message) const {
         ++m_assertion_count;
-        internal_assert_with_custom_message(greater > lesser, message);
+        internal_assert_with_custom_message(greater >= lesser, message);
     }
-    
+
     void is_true(bool expression) const {
         ++m_assertion_count;
         internal_assert(expression, UNITEST_TRUE_STRING, UNITEST_FALSE_STRING);
