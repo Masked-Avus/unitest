@@ -737,6 +737,74 @@ inline void Test::are_not_equal<long double>(const long double& expected, const 
     internal_assert_with_value_printing(expected != actual, expected, actual, UNITEST_INEQUALITY_STRING);
 }
 
+// GREATER
+
+template<>
+inline void Test::is_greater<int>(const int& expected, const int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<long>(const long& expected, const long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<long long>(const long long& expected, const long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<short>(const short& expected, const short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<float>(const float& expected, const float& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<double>(const double& expected, const double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
+template<>
+inline void Test::is_greater<long double>(const long double& expected, const long double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing(expected > actual, expected, actual, UNITEST_GREATER_STRING);
+}
+
 #undef UNITEST_EQUALITY_STRING
 #undef UNITEST_INEQUALITY_STRING
 #undef UNITEST_GREATER_STRING

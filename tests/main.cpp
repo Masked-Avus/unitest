@@ -254,14 +254,15 @@ int main() {
     tests.add({ "equality test", "fails", [](const Test& assert) {
         assert.are_equal(8, 10);
     }});
-    
     // This is supposed to fail.
     tests.add({ "inequality test", "fails", [](const Test& assert) {
         assert.are_not_equal(8.8, 8.8);
     }});
-
     tests.add({ "greater-than test", "passes", [](const Test& assert) {
         assert.is_greater(10, 5);
+    }});
+    tests.add({ "greater-than test", "fails", [](const Test& assert) {
+        assert.is_greater(5, 10);
     }});
 
     tests.run();
