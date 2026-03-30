@@ -726,5 +726,7 @@ inline void Test::are_not_equal<long double>(const long double& expected, const 
 
 #undef UNITEST_EQUALITY_STRING
 #undef UNITEST_INEQUALITY_STRING
+#undef UNITEST_TRUE_STRING
+#undef UNITEST_FALSE_STRING
 
 }
