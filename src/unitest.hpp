@@ -1,5 +1,5 @@
 // Author: Masked Avus
-// Version: 1.2.0
+// Version: 1.3.0
 // License: MIT (see LICENSE.md)
 
 #pragma once
