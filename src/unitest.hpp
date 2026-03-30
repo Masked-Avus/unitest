@@ -21,6 +21,7 @@ namespace unitest {
 #define UNITEST_GREATER_STRING "greater"
 #define UNITEST_GREATER_OR_EQUAL_STRING "greater or equal"
 #define UNITEST_LESS_STRING "less"
+#define UNITEST_LESS_OR_EQUAL_STRING "less or equal"
 #define UNITEST_TRUE_STRING "true"
 #define UNITEST_FALSE_STRING "false"
 
@@ -193,6 +194,18 @@ public: // Assertions
     void is_less(const T& lesser, const T& greater, String_View message) const {
         ++m_assertion_count;
         internal_assert_with_custom_message(lesser < greater, message);
+    }
+
+    template<typename T>
+    void is_less_or_equal(const T& lesser, const T& greater) const {
+        ++m_assertion_count;
+        internal_assert(lesser <= greater, UNITEST_LESS_OR_EQUAL_STRING);
+    }
+
+    template<typename T>
+    void is_less_or_equal(const T& lesser, const T& greater, String_View message) const {
+        ++m_assertion_count;
+        internal_assert_with_custom_message(lesser <= greater, message);
     }
 
     void is_true(bool expression) const {
@@ -475,6 +488,12 @@ private:
     template<typename T>
     void internal_assert_with_value_printing_less(const T& lesser, const T& greater) const {
         internal_assert_with_value_printing(lesser < greater, lesser, greater, UNITEST_LESS_STRING);
+    }
+
+    // Used by template specializations for testing less than or equal.
+    template<typename T>
+    void internal_assert_with_value_printing_less_or_equal(const T& lesser, const T& greater) const {
+        internal_assert_with_value_printing(lesser <= greater, lesser, greater, UNITEST_LESS_OR_EQUAL_STRING);
     }
 
     int get_assertion_count() const { return m_assertion_count; }
@@ -1009,11 +1028,80 @@ inline void Test::is_less<long double>(const long double& expected, const long d
     internal_assert_with_value_printing_less(expected, actual);
 }
 
+// LESS OR EQUAL
+
+template<>
+inline void Test::is_less_or_equal<int>(const int& expected, const int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<long>(const long& expected, const long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<long long>(const long long& expected, const long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<short>(const short& expected, const short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<float>(const float& expected, const float& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<double>(const double& expected, const double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
+template<>
+inline void Test::is_less_or_equal<long double>(const long double& expected, const long double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(expected, actual);
+}
+
 #undef UNITEST_EQUALITY_STRING
 #undef UNITEST_INEQUALITY_STRING
 #undef UNITEST_GREATER_STRING
-#undef UNITEST_LESS_STRING
 #undef UNITEST_GREATER_OR_EQUAL_STRING
+#undef UNITEST_LESS_STRING
+#undef UNITEST_LESS_OR_EQUAL_STRING
 #undef UNITEST_TRUE_STRING
 #undef UNITEST_FALSE_STRING
 

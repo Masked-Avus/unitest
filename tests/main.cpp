@@ -278,6 +278,13 @@ int main() {
     tests.add({ "less-than test", "fails", [](const Test& assert) {
         assert.is_less(GREATER_NUMBER, LESSER_NUMBER);
     }});
+    tests.add({ "less-than-or-equal test", "passes", [](const Test& assert){
+        assert.is_less_or_equal(LESSER_NUMBER, GREATER_NUMBER);
+        assert.is_less_or_equal(LESSER_NUMBER, LESSER_NUMBER);
+    }});
+    tests.add({ "less-than-or-equal test", "fails", [](const Test& assert){
+        assert.is_less_or_equal(GREATER_NUMBER, LESSER_NUMBER);
+    }});
 
 #undef GREATER_NUMBER
 #undef LESSER_NUMBER
