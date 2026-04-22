@@ -109,6 +109,15 @@ void TestWithFunctionPointer_Passes(const Test& assert) {
 }
 
 int main() {
+#if !UNITEST_TESTS_FILE_OUTPUT
+    print("Starting tests...");
+    print(1);
+    print(" ", 2);
+    print_line(" ", 3);
+    print_line("Go!");
+    print_line();
+#endif
+
     Runner tests {};
     
 #if UNITEST_TESTS_FILE_OUTPUT

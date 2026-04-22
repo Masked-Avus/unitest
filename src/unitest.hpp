@@ -690,6 +690,41 @@ private:
 #undef UNITEST_UNGROUPED_TESTS_LOCATION
 };
 
+template<typename T>
+inline void print(const T& value) {
+    std::cout << value;
+}
+
+template<typename T>
+inline void print(String_View space_separated_message, const T& value, bool insert_space = true) {
+    std::cout << space_separated_message;
+
+    if (insert_space) {
+        std::cout << ' ';
+    }
+
+    std::cout << value;
+}
+
+template<typename T>
+inline void print_line(const T& value) {
+    std::cout << value << '\n';
+}
+
+inline void print_line() {
+    std::cout << '\n';
+}
+
+template<typename T>
+inline void print_line(String_View space_separated_message, const T& value, bool insert_space = true) {
+    std::cout << space_separated_message;
+
+    if (insert_space) {
+        std::cout << ' ';
+    }
+
+    std::cout << value << '\n';
+}
 
 //-------- Template Specializations (for extra assertion information)
 
