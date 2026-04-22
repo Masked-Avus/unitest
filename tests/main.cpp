@@ -201,12 +201,12 @@ int main() {
 #define LESSER_NUMBER 5
 
     // This is supposed to fail.
-    tests.add({ "equality test", "fails", [](const Test& assert) {
+    tests.add({ "equality-test", "fails", [](const Test& assert) {
         assert.are_equal(LESSER_NUMBER, GREATER_NUMBER);
     }});
 
     // This is supposed to fail.
-    tests.add({ "inequality test", "fails", [](const Test& assert) {
+    tests.add({ "inequality-test", "fails", [](const Test& assert) {
         assert.are_not_equal(8.8, 8.8);
     }});
 
@@ -246,6 +246,11 @@ int main() {
     // This is supposed to fail.
     tests.add({ "less-than-or-equal test", "fails", [](const Test& assert){
         assert.is_less_or_equal(GREATER_NUMBER, LESSER_NUMBER);
+    }});
+
+    // This is supposed to fail.
+    tests.add({ "char-comparison", "fails", [](const Test& assert) {
+        assert.are_equal('c', 'a');
     }});
 
 #undef GREATER_NUMBER

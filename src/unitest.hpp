@@ -756,6 +756,12 @@ inline void Test::are_equal<long double>(const long double& expected, const long
     internal_assert_with_value_printing_equality(expected, actual);
 }
 
+template<>
+inline void Test::are_equal<char>(const char& expected, const char& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_equality(expected, actual);
+}
+
 // INEQUALITY
 
 template<>
@@ -820,6 +826,12 @@ inline void Test::are_not_equal<double>(const double& not_expected, const double
 
 template<>
 inline void Test::are_not_equal<long double>(const long double& not_expected, const long double& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_inequality(not_expected, actual);
+}
+
+template<>
+inline void Test::are_not_equal<char>(const char& not_expected, const char& actual) const {
     ++m_assertion_count;
     internal_assert_with_value_printing_inequality(not_expected, actual);
 }
@@ -892,6 +904,12 @@ inline void Test::is_greater<long double>(const long double& greater, const long
     internal_assert_with_value_printing_greater(greater, lesser);
 }
 
+template<>
+inline void Test::is_greater<char>(const char& greater, const char& lesser) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_greater(greater, lesser);
+}
+
 // GREATER OR EQUAL
 
 template<>
@@ -956,6 +974,12 @@ inline void Test::is_greater_or_equal<double>(const double& greater, const doubl
 
 template<>
 inline void Test::is_greater_or_equal<long double>(const long double& greater, const long double& lesser) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
+}
+
+template<>
+inline void Test::is_greater_or_equal<char>(const char& greater, const char& lesser) const {
     ++m_assertion_count;
     internal_assert_with_value_printing_greater_or_equal(greater, lesser);
 }
@@ -1028,6 +1052,12 @@ inline void Test::is_less<long double>(const long double& lesser, const long dou
     internal_assert_with_value_printing_less(lesser, greater);
 }
 
+template<>
+inline void Test::is_less<char>(const char& lesser, const char& greater) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(lesser, greater);
+}
+
 // LESS OR EQUAL
 
 template<>
@@ -1092,6 +1122,12 @@ inline void Test::is_less_or_equal<double>(const double& lesser, const double& g
 
 template<>
 inline void Test::is_less_or_equal<long double>(const long double& lesser, const long double& greater) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less_or_equal(lesser, greater);
+}
+
+template<>
+inline void Test::is_less_or_equal<char>(const char& lesser, const char& greater) const {
     ++m_assertion_count;
     internal_assert_with_value_printing_less_or_equal(lesser, greater);
 }
