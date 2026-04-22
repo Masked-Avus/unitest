@@ -627,7 +627,12 @@ public:
         output_current_date_time();
 
         for (std::size_t i {}; i < m_tests.size(); ++i) {
-            Group test_group { m_tests[i] };
+            Group& test_group { m_tests[i] };
+
+            if (test_group.get_test_count() == 0) {
+                continue;
+            }
+
             (*m_output) << test_group.get_name() << ':' << '\n';
             test_group.run_all_tests();
 

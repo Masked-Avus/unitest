@@ -258,6 +258,9 @@ int main() {
 
     tests.add(tests::get_entity_tests());
 
+    // This should not be printed.
+    tests.add({ "Empty" });
+
     tests.run();
 
     return 0;
