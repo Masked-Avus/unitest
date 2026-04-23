@@ -3,6 +3,7 @@
 #include "entity.hpp"
 #include "simple_math.hpp"
 #include "custom_exceptions.hpp"
+#include "string_view_tests.hpp"
 
 #include <string>
 #include <stdexcept>
@@ -178,6 +179,7 @@ int main() {
 #undef LESSER_NUMBER
 
     tests.add(tests::get_entity_tests());
+    tests.add(tests::get_string_view_tests());
 
     // This should not be printed.
     tests.add({ "Empty" });
