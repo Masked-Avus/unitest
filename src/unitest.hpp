@@ -940,487 +940,157 @@ inline void print_line(String_View space_separated_message, const T& value, bool
     std::cout << value << '\n';
 }
 
-//-------- Template Specializations (for extra assertion information)
+//-------- Template Specializations
+// These are designed to provide information on the values being used in assertions.
+// The macros below are purely for convenience in terms of cutting down the amount of repetitive text.
 
 // EQUALITY
+#define UNITEST_ARE_EQUAL_SPECIALIZATION(Type) \
+    template<> \
+    inline void Test::are_equal<Type>(const Type& expected, const Type& actual) const { \
+        ++m_assertion_count; \
+        internal_assert_with_value_printing_equality(expected, actual); \
+    }
 
-template<>
-inline void Test::are_equal<int>(const int& expected, const int& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
+UNITEST_ARE_EQUAL_SPECIALIZATION(int)
+UNITEST_ARE_EQUAL_SPECIALIZATION(long int)
+UNITEST_ARE_EQUAL_SPECIALIZATION(long long)
+UNITEST_ARE_EQUAL_SPECIALIZATION(short)
+UNITEST_ARE_EQUAL_SPECIALIZATION(unsigned int)
+UNITEST_ARE_EQUAL_SPECIALIZATION(unsigned long)
+UNITEST_ARE_EQUAL_SPECIALIZATION(unsigned long long)
+UNITEST_ARE_EQUAL_SPECIALIZATION(unsigned short)
+UNITEST_ARE_EQUAL_SPECIALIZATION(float)
+UNITEST_ARE_EQUAL_SPECIALIZATION(double)
+UNITEST_ARE_EQUAL_SPECIALIZATION(long double)
+UNITEST_ARE_EQUAL_SPECIALIZATION(char)
+UNITEST_ARE_EQUAL_SPECIALIZATION(std::string)
+UNITEST_ARE_EQUAL_SPECIALIZATION(String_View)
 
-template<>
-inline void Test::are_equal<long>(const long& expected, const long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<long long>(const long long& expected, const long long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<short>(const short& expected, const short& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<unsigned int>(const unsigned int& expected, const unsigned int& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<unsigned long>(const unsigned long& expected, const unsigned long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<unsigned long long>(const unsigned long long& expected, const unsigned long long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<unsigned short>(const unsigned short& expected, const unsigned short& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<float>(const float& expected, const float& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<double>(const double& expected, const double& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<long double>(const long double& expected, const long double& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<char>(const char& expected, const char& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<std::string>(const std::string& expected, const std::string& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
-
-template<>
-inline void Test::are_equal<String_View>(const String_View& expected, const String_View& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_equality(expected, actual);
-}
+#undef UNITEST_ARE_EQUAL_SPECIALIZATION
 
 // INEQUALITY
+#define UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(Type) \
+    template<> \
+    inline void Test::are_not_equal<Type>(const Type& not_expected, const Type& actual) const { \
+        ++m_assertion_count; \
+        internal_assert_with_value_printing_inequality(not_expected, actual); \
+    }
 
-template<>
-inline void Test::are_not_equal<int>(const int& not_expected, const int& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(int)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(long int)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(long long)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(short)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(unsigned int)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(unsigned long)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(unsigned long long)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(unsigned short)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(float)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(double)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(long double)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(char)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(std::string)
+UNITEST_ARE_NOT_EQUAL_SPECIALIZATION(String_View)
 
-template<>
-inline void Test::are_not_equal<long>(const long& not_expected, const long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<long long>(const long long& not_expected, const long long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<short>(const short& not_expected, const short& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<unsigned int>(const unsigned int& not_expected, const unsigned int& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<unsigned long>(const unsigned long& not_expected, const unsigned long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<unsigned long long>(const unsigned long long& not_expected, const unsigned long long& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<unsigned short>(const unsigned short& not_expected, const unsigned short& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<float>(const float& not_expected, const float& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<double>(const double& not_expected, const double& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<long double>(const long double& not_expected, const long double& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<char>(const char& not_expected, const char& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(not_expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<std::string>(const std::string& expected, const std::string& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(expected, actual);
-}
-
-template<>
-inline void Test::are_not_equal<String_View>(const String_View& expected, const String_View& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_inequality(expected, actual);
-}
+#undef UNITEST_ARE_NOT_EQUAL_SPECIALIZATION
 
 // GREATER
 
-template<>
-inline void Test::is_greater<int>(const int& greater, const int& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
+#define UNITEST_IS_GREATER_SPECIALIZATION(Type) \
+    template<> \
+    inline void Test::is_greater<Type>(const Type& greater, const Type& lesser) const { \
+        ++m_assertion_count; \
+        internal_assert_with_value_printing_greater(greater, lesser); \
+    }
 
-template<>
-inline void Test::is_greater<long>(const long& greater, const long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
+UNITEST_IS_GREATER_SPECIALIZATION(int)
+UNITEST_IS_GREATER_SPECIALIZATION(long)
+UNITEST_IS_GREATER_SPECIALIZATION(long long)
+UNITEST_IS_GREATER_SPECIALIZATION(short)
+UNITEST_IS_GREATER_SPECIALIZATION(unsigned int)
+UNITEST_IS_GREATER_SPECIALIZATION(unsigned long)
+UNITEST_IS_GREATER_SPECIALIZATION(unsigned long long)
+UNITEST_IS_GREATER_SPECIALIZATION(unsigned short)
+UNITEST_IS_GREATER_SPECIALIZATION(float)
+UNITEST_IS_GREATER_SPECIALIZATION(double)
+UNITEST_IS_GREATER_SPECIALIZATION(long double)
+UNITEST_IS_GREATER_SPECIALIZATION(char)
+UNITEST_IS_GREATER_SPECIALIZATION(String_View)
 
-template<>
-inline void Test::is_greater<long long>(const long long& greater, const long long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<short>(const short& greater, const short& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<unsigned int>(const unsigned int& greater, const unsigned int& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<unsigned long>(const unsigned long& greater, const unsigned long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<unsigned long long>(const unsigned long long& greater, const unsigned long long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<unsigned short>(const unsigned short& greater, const unsigned short& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<float>(const float& greater, const float& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<double>(const double& greater, const double& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<long double>(const long double& greater, const long double& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<char>(const char& greater, const char& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater<String_View>(const String_View& expected, const String_View& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater(expected, actual);
-}
+#undef UNITEST_IS_GREATER_SPECIALIZATION
 
 // GREATER OR EQUAL
 
-template<>
-inline void Test::is_greater_or_equal<int>(const int& greater, const int& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
+#define UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(Type) \
+    template<> \
+    inline void Test::is_greater_or_equal<Type>(const Type& greater, const Type& lesser) const { \
+        ++m_assertion_count; \
+        internal_assert_with_value_printing_greater_or_equal(greater, lesser); \
+    }
 
-template<>
-inline void Test::is_greater_or_equal<long>(const long& greater, const long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(int)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(long)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(long long)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(short)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(unsigned int)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(unsigned long)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(unsigned long long)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(unsigned short)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(float)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(double)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(long double)
+UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION(char)
 
-template<>
-inline void Test::is_greater_or_equal<long long>(const long long& greater, const long long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
+#undef UNITEST_IS_GREATER_OR_EQUAL_SPECIALIZATION
 
-template<>
-inline void Test::is_greater_or_equal<short>(const short& greater, const short& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
+// LESS
 
-template<>
-inline void Test::is_greater_or_equal<unsigned int>(const unsigned int& greater, const unsigned int& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
+#define UNITEST_IS_LESS_SPECIALIZATION(Type) \
+    template<> \
+    inline void Test::is_less<Type>(const Type& lesser, const Type& greater) const { \
+        ++m_assertion_count; \
+        internal_assert_with_value_printing_less(lesser, greater); \
+    }
 
-template<>
-inline void Test::is_greater_or_equal<unsigned long>(const unsigned long& greater, const unsigned long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
+UNITEST_IS_LESS_SPECIALIZATION(int)
+UNITEST_IS_LESS_SPECIALIZATION(long)
+UNITEST_IS_LESS_SPECIALIZATION(long long)
+UNITEST_IS_LESS_SPECIALIZATION(short)
+UNITEST_IS_LESS_SPECIALIZATION(unsigned int)
+UNITEST_IS_LESS_SPECIALIZATION(unsigned long)
+UNITEST_IS_LESS_SPECIALIZATION(unsigned long long)
+UNITEST_IS_LESS_SPECIALIZATION(unsigned short)
+UNITEST_IS_LESS_SPECIALIZATION(float)
+UNITEST_IS_LESS_SPECIALIZATION(double)
+UNITEST_IS_LESS_SPECIALIZATION(long double)
+UNITEST_IS_LESS_SPECIALIZATION(char)
+UNITEST_IS_LESS_SPECIALIZATION(String_View)
 
-template<>
-inline void Test::is_greater_or_equal<unsigned long long>(const unsigned long long& greater, const unsigned long long& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater_or_equal<unsigned short>(const unsigned short& greater, const unsigned short& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater_or_equal<float>(const float& greater, const float& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater_or_equal<double>(const double& greater, const double& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater_or_equal<long double>(const long double& greater, const long double& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
-
-template<>
-inline void Test::is_greater_or_equal<char>(const char& greater, const char& lesser) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_greater_or_equal(greater, lesser);
-}
-
-// LESS 
-
-template<>
-inline void Test::is_less<int>(const int& lesser, const int& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<long>(const long& lesser, const long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<long long>(const long long& lesser, const long long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<short>(const short& lesser, const short& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<unsigned int>(const unsigned int& lesser, const unsigned int& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<unsigned long>(const unsigned long& lesser, const unsigned long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<unsigned long long>(const unsigned long long& lesser, const unsigned long long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<unsigned short>(const unsigned short& lesser, const unsigned short& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<float>(const float& lesser, const float& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<double>(const double& lesser, const double& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<long double>(const long double& lesser, const long double& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<char>(const char& lesser, const char& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(lesser, greater);
-}
-
-template<>
-inline void Test::is_less<String_View>(const String_View& expected, const String_View& actual) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less(expected, actual);
-}
+#undef UNITEST_IS_LESS_SPECIALIZATION
 
 // LESS OR EQUAL
 
-template<>
-inline void Test::is_less_or_equal<int>(const int& lesser, const int& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
+#define UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(Type) \
+    template<> \
+    inline void Test::is_less_or_equal<Type>(const Type& lesser, const Type& greater) const { \
+        ++m_assertion_count; \
+        internal_assert_with_value_printing_less_or_equal(lesser, greater); \
+    }
 
-template<>
-inline void Test::is_less_or_equal<long>(const long& lesser, const long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(int)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(long)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(long long)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(short)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(unsigned int)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(unsigned long)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(unsigned long long)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(unsigned short)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(float)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(double)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(long double)
+UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION(char)
 
-template<>
-inline void Test::is_less_or_equal<long long>(const long long& lesser, const long long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<short>(const short& lesser, const short& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<unsigned int>(const unsigned int& lesser, const unsigned int& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<unsigned long>(const unsigned long& lesser, const unsigned long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<unsigned long long>(const unsigned long long& lesser, const unsigned long long& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<unsigned short>(const unsigned short& lesser, const unsigned short& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<float>(const float& lesser, const float& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<double>(const double& lesser, const double& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<long double>(const long double& lesser, const long double& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
-
-template<>
-inline void Test::is_less_or_equal<char>(const char& lesser, const char& greater) const {
-    ++m_assertion_count;
-    internal_assert_with_value_printing_less_or_equal(lesser, greater);
-}
+#undef UNITEST_IS_LESS_OR_EQUAL_SPECIALIZATION
 
 #undef UNITEST_EQUALITY_STRING
 #undef UNITEST_INEQUALITY_STRING
