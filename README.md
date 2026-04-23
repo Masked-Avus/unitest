@@ -83,13 +83,7 @@ As of the current version, UniTest provides the following assertions:
 | `Test::throws_no_exception`   | specific exception type not thrown    |
 | `Test::throws_no_exceptions`  | no exceptions thrown                  |
 
-### String View
-
-For working with pre-C++17 codebases, UniTest provides its own take of `std::string_view`: `unitest::String_View`. This is for the sake of convenience when working with strings, specifically `const char*` and `std::string` types.
-
-### Quirks
-
-When using the assertions `are_equal`, `are_not_equal`, `is_greater`, `is_greater_or_equal`, `is_less`, or `is_less_or_equal` for testing operator overloads that target user-defined types, said functions will only compile if their respective operator overloads are free-floating functions as opposed to member functions. This is due to issues with the `this` pointer.
+*When using the assertions `are_equal`, `are_not_equal`, `is_greater`, `is_greater_or_equal`, `is_less`, or `is_less_or_equal` for testing operator overloads that target user-defined types, said functions will only compile if their respective operator overloads are free-floating functions as opposed to member functions. This is due to issues with the `this` pointer.*
 
 ```cpp
 class Will_Not_Work {
@@ -120,6 +114,26 @@ bool operator ==(const Will_Work& left, const Will_Work& right) {
     return left.m_value == right.m_value;
 }
 ```
+
+### String View
+
+For working with pre-C++17 codebases, UniTest provides its own take of `std::string_view`: `unitest::String_View`. This is for the sake of convenience when working with strings, specifically `const char*` and `std::string` types. It can perform many of the same operations, including (but not limited to):
+- Indexing specific characters.
+- Comparison.
+- The ability to shrink the view from the front or back.
+- Compatibility with `std::ostream` objects, including `std::cout`.
+
+```cpp
+const char example[] { "example" };
+
+unitest::String_View view { example };
+
+std::cout << view << '\n';
+```
+
+### Printing to Console
+
+UniTest provides a set of overloads for the following functions: `print` and `print_line`. These are simple wrappers around a call to `std::cout` and are a convenience when needing to perform some quick printing to the console.
 
 ## Example
 
