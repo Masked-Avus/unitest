@@ -142,6 +142,36 @@ Group get_string_view_tests() {
             const char expected { s_ghidorah[index++] };
             assert.are_equal(expected, actual);
         }
+    }})
+    .add({ "String_View::remove_front", "shrinks view from front", [](const Test& assert) {
+        String_View view { s_godzilla };
+        constexpr std::size_t removal_count { 3 };
+        
+        view.remove_front(removal_count);
+
+        std::size_t index {};
+        const char* end { s_godzilla + std::strlen(s_godzilla) };
+
+        for (const char* start { s_godzilla + removal_count }; start != end; ++start) {
+            const char expected { *start };
+            const char actual { view[index++] };
+            assert.are_equal(expected, actual);
+        }
+    }})
+    .add({ "String_View::remove_back", "shrinks view from back", [](const Test& assert) {
+        String_View view { s_godzilla };
+        constexpr std::size_t removal_count { 5 };
+        
+        view.remove_back(removal_count);
+
+        std::size_t index {};
+        const char* end { s_godzilla + 3 };
+
+        for (const char* start { s_godzilla }; start != end; ++start) {
+            const char expected { *start };
+            const char actual { view[index++] };
+            assert.are_equal(expected, actual);
+        }
     }});
 }
 

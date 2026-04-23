@@ -15,7 +15,7 @@ To use UniTest, first fire up a `unitest::Runner` object.
 unitest::Runner tests {};
 ```
 
-To add a test to the `Runner`, call the `add` function, which requires the name of your test subject, a string denoting what result you expect for a success, and a test function as parameters. As for the test function, you can pass either a raw function pointer or a lambda function. Whether using a raw function pointer or named function objects, a convention used by the author for naming test functions is to use a `PascalCase` name that contains both the thing being tested and the expected result, with the two separated by an underscore. 
+To add a test to the `Runner`, call the `add` function, which requires the name of your test subject, a string denoting what result you expect for a success, and a test function as parameters. As for the test function, you can pass either a raw function pointer or a lambda function.
 
 ```cpp
 // You can pass in a raw function pointer...
@@ -82,6 +82,10 @@ As of the current version, UniTest provides the following assertions:
 | `Test::throws_any_exception`  | any exception type thrown             |
 | `Test::throws_no_exception`   | specific exception type not thrown    |
 | `Test::throws_no_exceptions`  | no exceptions thrown                  |
+
+### String View
+
+For working with pre-C++17 codebases, UniTest provides its own take of `std::string_view`: `unitest::String_View`. This is for the sake of convenience when working with strings, specifically `const char*` and `std::string` types.
 
 ### Quirks
 

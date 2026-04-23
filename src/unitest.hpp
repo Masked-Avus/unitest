@@ -75,11 +75,6 @@ private:
     const char* m_data {};
 };
 
-/*
-We provide this to allow for compatibility with C++11. For the sake of simplicity, unlike
-    std::string_view, this take on a string view does not allow any way of manipulating the view's
-    size.
-*/
 class String_View final {
 #define UNITEST_LOWERCASE_UPPERCASE_DIFFERENCE 32
 
@@ -120,6 +115,23 @@ public:
         }
 
         return result;
+    }
+
+    void remove_front(Size_Type count = 1) {
+        if (count > m_length) {
+            count = m_length;
+        }
+
+        m_data += count;
+        m_length -= count;
+    }
+
+    void remove_back(Size_Type count = 1) {
+        if (count > m_length) {
+            count = m_length;
+        }
+
+        m_length -= count;
     }
 
     bool equals(String_View other) const {
