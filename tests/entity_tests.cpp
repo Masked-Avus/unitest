@@ -1,4 +1,5 @@
-#include "entity_tests.hpp"
+#include "unitest.hpp"
+
 #include "entity.hpp"
 
 namespace unitest {

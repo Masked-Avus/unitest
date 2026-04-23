@@ -1,4 +1,4 @@
-#include "ungrouped_tests.hpp"
+#include "unitest.hpp"
 
 #include "simple_math.hpp"
 #include "custom_exceptions.hpp"

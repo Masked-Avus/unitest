@@ -1,15 +1,21 @@
 #include "unitest.hpp"
 
-#include "ungrouped_tests.hpp"
-#include "entity_tests.hpp"
-#include "string_view_tests.hpp"
-
 #include <string>
 #include <stdexcept>
 #include <iostream>
 #if UNITEST_TESTS_FILE_OUTPUT
     #include <fstream>
 #endif
+
+namespace unitest {
+namespace tests {
+
+void load_ungrouped_tests(Runner& tests);
+Group get_entity_tests();
+Group get_string_view_tests();
+
+}
+}
 
 using namespace unitest;
 
