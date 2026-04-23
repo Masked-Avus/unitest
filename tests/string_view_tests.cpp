@@ -43,6 +43,34 @@ Group get_string_view_tests() {
             const char actual { copy[i] };
             assert.are_equal(expected, actual);
         }
+    }})
+    .add( {"String_View equality operations", "return true if equal and false if not", [](const Test& assert) {
+        const String_View first { s_godzilla };
+        const String_View second { s_godzilla };
+        const String_View third { s_ghidorah };
+
+        assert.is_true(first.equals(second));
+        assert.is_true(first == second);
+
+        assert.is_true(second.equals(first));
+        assert.is_true(second == first);
+
+        assert.is_false(first.equals(third));
+        assert.is_false(first == third);
+
+        assert.is_false(second.equals(third));
+        assert.is_false(second == third);
+
+        assert.is_false(third.equals(first));
+        assert.is_false(third == first);
+
+        assert.is_false(third.equals(second));
+        assert.is_false(third == second);
+
+        assert.is_true(first != third);
+        assert.is_true(second != third);
+        assert.is_true(third != first);
+        assert.is_true(third != second);
     }});
 }
 

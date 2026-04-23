@@ -64,10 +64,29 @@ public:
         return result;
     }
 
+    bool equals(String_View other) const {
+        if (m_length != other.m_length) {
+            return false;
+        }
+        else if (m_data == other.m_data) {
+            return true;
+        }
+
+        for (Size_Type i {}; i < m_length; ++i) {
+            if (*(m_data + i) != *(other.m_data + i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     char operator [](Size_Type index) { return *(m_data + index); }
     char operator [](Size_Type index) const { return *(m_data + index); }
     operator const char*() const { return m_data; }
 
+    friend bool operator ==(String_View left, String_View right);
+    friend bool operator !=(String_View left, String_View right);
     friend std::ostream& operator <<(std::ostream&, String_View);
 
 private:
@@ -81,6 +100,14 @@ inline std::ostream& operator <<(std::ostream& output, String_View string) {
     }
 
     return output;
+}
+
+inline bool operator ==(String_View left, String_View right) {
+    return left.equals(right);
+}
+
+inline bool operator !=(String_View left, String_View right) {
+    return !left.equals(right);
 }
 
 enum class Status {
