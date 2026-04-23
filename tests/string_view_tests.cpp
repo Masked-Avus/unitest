@@ -89,6 +89,23 @@ Group get_string_view_tests() {
         assert.is_true(third.compare(second) == String_View::Sort_Order::After);
         assert.is_true(third > first);
         assert.is_true(third > second);
+    }})
+    .add({ "String_View iterators", "iterate through each character in view", [](const Test& assert) {
+        String_View first { s_godzilla };
+        String_View::Size_Type index {};
+
+        for (const char& actual : first) {
+            const char expected { s_godzilla[index++] };
+            assert.are_equal(expected, actual);
+        }
+
+        const String_View second { s_ghidorah };
+        index = 0;
+
+        for (const char& actual : second) {
+            const char expected { s_ghidorah[index++] };
+            assert.are_equal(expected, actual);
+        }
     }});
 }
 

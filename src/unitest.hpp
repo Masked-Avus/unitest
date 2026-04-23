@@ -27,6 +27,54 @@ namespace unitest {
 
 class Test;
 
+class String_View_Const_Iterator final {
+public:
+    using Size_Type = std::size_t;
+
+    String_View_Const_Iterator(const char* data) : m_data { data } { }
+
+    String_View_Const_Iterator& operator ++() {
+        ++m_data;
+        return *this;
+    }
+
+    String_View_Const_Iterator operator ++(int) {
+        const String_View_Const_Iterator old { m_data };
+        ++m_data;
+        return old;
+    }
+
+    String_View_Const_Iterator& operator --() {
+        --m_data;
+        return *this;
+    }
+
+    String_View_Const_Iterator operator --(int) {
+        const String_View_Const_Iterator old { m_data };
+        --m_data;
+        return old;
+    }
+
+    String_View_Const_Iterator& operator +=(Size_Type amount) {
+        m_data += amount;
+        return *this;
+    }
+
+    String_View_Const_Iterator& operator -=(Size_Type amount) {
+        m_data -= amount;
+        return *this;
+    }
+
+    const char& operator [](Size_Type offset) const { return *(m_data + offset); }
+    const char& operator *() const { return *m_data; }
+
+    bool operator ==(const String_View_Const_Iterator& other) const { return m_data == other.m_data; }
+    bool operator !=(const String_View_Const_Iterator& other) const { return m_data != other.m_data; }
+
+private:
+    const char* m_data {};
+};
+
 /*
 We provide this to allow for compatibility with C++11. For the sake of simplicity, unlike
     std::string_view, this take on a string view does not allow any way of manipulating the view's
@@ -35,6 +83,7 @@ We provide this to allow for compatibility with C++11. For the sake of simplicit
 class String_View final {
 public:
     using Size_Type = std::size_t;
+    using Const_Iterator = String_View_Const_Iterator;
 
     // Values are relative to the caller of a "compare()" call to its argument.
     enum class Sort_Order {
@@ -117,6 +166,13 @@ public:
     char operator [](Size_Type index) { return *(m_data + index); }
     char operator [](Size_Type index) const { return *(m_data + index); }
     operator const char*() const { return m_data; }
+
+    Const_Iterator begin() { return { m_data }; }
+    Const_Iterator begin() const { return { m_data }; }
+    Const_Iterator end() { return { m_data + m_length }; }
+    Const_Iterator end() const { return { m_data + m_length }; }
+    Const_Iterator cbegin() const { return { m_data }; }
+    Const_Iterator cend() const { return { m_data + m_length }; }
 
     friend bool operator ==(String_View left, String_View right);
     friend bool operator !=(String_View left, String_View right);
