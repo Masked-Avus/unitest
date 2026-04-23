@@ -1,7 +1,7 @@
 #include "unitest.hpp"
 
 #include "ungrouped_tests.hpp"
-#include "entity.hpp"
+#include "entity_tests.hpp"
 #include "string_view_tests.hpp"
 
 #include <string>

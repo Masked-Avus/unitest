@@ -25,7 +25,5 @@ private:
 inline bool operator ==(const Entity& left, const Entity& right) { return left.get_id() == right.get_id(); }
 inline bool operator !=(const Entity& left, const Entity& right) { return left.get_id() != right.get_id(); }
 
-Group get_entity_tests();
-
 }
 }
