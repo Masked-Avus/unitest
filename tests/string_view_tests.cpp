@@ -109,6 +109,23 @@ Group get_string_view_tests() {
         assert.is_true(third > first);
         assert.is_true(third > second);
     }})
+    .add({ "String_View::compare_caseless", "ignores case for sort order comparison", [](const Test& assert) {
+        const String_View regular { s_godzilla };
+        const String_View uppercase { s_upper_godzilla };
+        const String_View lowercase { s_lower_godzilla };
+
+        assert.is_true(regular.compare_caseless(regular) == String_View::Sort_Order::Same);
+        assert.is_true(regular.compare_caseless(uppercase) == String_View::Sort_Order::Same);
+        assert.is_true(regular.compare_caseless(lowercase) == String_View::Sort_Order::Same);
+
+        assert.is_true(uppercase.compare_caseless(uppercase) == String_View::Sort_Order::Same);
+        assert.is_true(uppercase.compare_caseless(regular) == String_View::Sort_Order::Same);
+        assert.is_true(uppercase.compare_caseless(lowercase) == String_View::Sort_Order::Same);
+
+        assert.is_true(lowercase.compare_caseless(lowercase) == String_View::Sort_Order::Same);
+        assert.is_true(lowercase.compare_caseless(regular) == String_View::Sort_Order::Same);
+        assert.is_true(lowercase.compare_caseless(uppercase) == String_View::Sort_Order::Same);
+    }})
     .add({ "String_View iterators", "iterate through each character in view", [](const Test& assert) {
         String_View first { s_godzilla };
         String_View::Size_Type index {};

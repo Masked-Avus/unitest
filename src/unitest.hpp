@@ -81,6 +81,8 @@ We provide this to allow for compatibility with C++11. For the sake of simplicit
     size.
 */
 class String_View final {
+#define UNITEST_LOWERCASE_UPPERCASE_DIFFERENCE 32
+
 public:
     using Size_Type = std::size_t;
     using Const_Iterator = String_View_Const_Iterator;
@@ -149,13 +151,12 @@ public:
             const char from_this { *(m_data + i) };
             const char from_other { *(other.m_data + i) };
             bool is_same_with_different_case {};
-            constexpr int upper_lower_difference { 32 };
             
             if (from_this > from_other) {
-                is_same_with_different_case = (from_this - from_other) == upper_lower_difference;
+                is_same_with_different_case = (from_this - from_other) == UNITEST_LOWERCASE_UPPERCASE_DIFFERENCE;
             }
             else {
-                is_same_with_different_case = (from_other - from_this) == upper_lower_difference;
+                is_same_with_different_case = (from_other - from_this) == UNITEST_LOWERCASE_UPPERCASE_DIFFERENCE;
             }
 
             if (is_same_with_different_case) {
@@ -195,6 +196,39 @@ public:
         }
     }
 
+    Sort_Order compare_caseless(String_View other) const {
+        const Size_Type iterations { (m_length < other.m_length) ? m_length : other.m_length };
+
+        for (Size_Type i {}; i < iterations; ++i) {
+            const char from_this { *(m_data + i) };
+            const char from_other { *(other.m_data + i) };
+
+            if (from_this > from_other) {
+                if ((from_this - from_other) == UNITEST_LOWERCASE_UPPERCASE_DIFFERENCE) {
+                    continue;
+                }
+
+                return Sort_Order::After;
+            }
+            else if (from_this < from_other) {
+                if ((from_other - from_this) == UNITEST_LOWERCASE_UPPERCASE_DIFFERENCE) {
+                    continue;
+                }
+                return Sort_Order::Before;
+            }
+        }
+
+        if (m_length < other.m_length) {
+            return Sort_Order::Before;
+        }
+        else if (m_length > other.m_length) {
+            return Sort_Order::After;
+        }
+        else {
+            return Sort_Order::Same;
+        }
+    }
+
     char operator [](Size_Type index) { return *(m_data + index); }
     char operator [](Size_Type index) const { return *(m_data + index); }
     operator const char*() const { return m_data; }
@@ -215,6 +249,8 @@ public:
 private:
     const char* m_data {};
     Size_Type m_length {};
+
+#undef UNITEST_LOWERCASE_UPPERCASE_DIFFERENCE
 };
 
 inline std::ostream& operator <<(std::ostream& output, String_View string) {
@@ -225,18 +261,11 @@ inline std::ostream& operator <<(std::ostream& output, String_View string) {
     return output;
 }
 
-inline bool operator ==(String_View left, String_View right) {
-    return left.equals(right);
-}
-
-inline bool operator !=(String_View left, String_View right) {
-    return !left.equals(right);
-}
-
+inline bool operator ==(String_View left, String_View right) { return left.equals(right); }
+inline bool operator !=(String_View left, String_View right) { return !left.equals(right); }
 inline bool operator <(String_View left, String_View right) {
     return left.compare(right) == String_View::Sort_Order::Before;
 }
-
 inline bool operator >(String_View left, String_View right) {
     return left.compare(right) == String_View::Sort_Order::After;
 }
