@@ -3,8 +3,10 @@
 namespace unitest {
 namespace tests {
 
-const char s_godzilla[] { "Godzilla" };
-const char s_ghidorah[] { "King Ghidorah" };
+constexpr char s_godzilla[] { "Godzilla" };
+constexpr char s_upper_godzilla[] { "GODZILLA" };
+constexpr char s_lower_godzilla[] { "godzilla" };
+constexpr char s_ghidorah[] { "King Ghidorah" };
 
 Group get_string_view_tests() {
     return Group("String_View")
@@ -71,6 +73,23 @@ Group get_string_view_tests() {
         assert.is_true(second != third);
         assert.is_true(third != first);
         assert.is_true(third != second);
+    }})
+    .add({ "String_View::equals_caseless", "ignores case for equality comparison", [](const Test& assert) {
+        const String_View regular { s_godzilla };
+        const String_View uppercase { s_upper_godzilla };
+        const String_View lowercase { s_lower_godzilla };
+
+        assert.is_true(regular.equals_caseless(regular));
+        assert.is_true(regular.equals_caseless(uppercase));
+        assert.is_true(regular.equals_caseless(lowercase));
+
+        assert.is_true(uppercase.equals_caseless(uppercase));
+        assert.is_true(uppercase.equals_caseless(regular));
+        assert.is_true(uppercase.equals_caseless(lowercase));
+
+        assert.is_true(lowercase.equals_caseless(lowercase));
+        assert.is_true(lowercase.equals_caseless(regular));
+        assert.is_true(lowercase.equals_caseless(uppercase));
     }})
     .add({ "String_View comparison operations", "return expected sort order values", [](const Test& assert) {
         const String_View first { s_godzilla };

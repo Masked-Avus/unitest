@@ -137,6 +137,38 @@ public:
         return true;
     }
 
+    bool equals_caseless(String_View other) const {
+        if (m_length != other.m_length) {
+            return false;
+        }
+        else if (m_data == other.m_data) {
+            return true;
+        }
+
+        for (Size_Type i {}; i < m_length; ++i) {
+            const char from_this { *(m_data + i) };
+            const char from_other { *(other.m_data + i) };
+            bool is_same_with_different_case {};
+            constexpr int upper_lower_difference { 32 };
+            
+            if (from_this > from_other) {
+                is_same_with_different_case = (from_this - from_other) == upper_lower_difference;
+            }
+            else {
+                is_same_with_different_case = (from_other - from_this) == upper_lower_difference;
+            }
+
+            if (is_same_with_different_case) {
+                continue;
+            }
+            else if (from_other != from_other) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     Sort_Order compare(String_View other) const {
         const Size_Type iterations { (m_length < other.m_length) ? m_length : other.m_length };
 
