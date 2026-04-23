@@ -1016,6 +1016,18 @@ inline void Test::are_equal<char>(const char& expected, const char& actual) cons
     internal_assert_with_value_printing_equality(expected, actual);
 }
 
+template<>
+inline void Test::are_equal<std::string>(const std::string& expected, const std::string& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_equality(expected, actual);
+}
+
+template<>
+inline void Test::are_equal<String_View>(const String_View& expected, const String_View& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_equality(expected, actual);
+}
+
 // INEQUALITY
 
 template<>
@@ -1090,6 +1102,18 @@ inline void Test::are_not_equal<char>(const char& not_expected, const char& actu
     internal_assert_with_value_printing_inequality(not_expected, actual);
 }
 
+template<>
+inline void Test::are_not_equal<std::string>(const std::string& expected, const std::string& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_inequality(expected, actual);
+}
+
+template<>
+inline void Test::are_not_equal<String_View>(const String_View& expected, const String_View& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_inequality(expected, actual);
+}
+
 // GREATER
 
 template<>
@@ -1162,6 +1186,12 @@ template<>
 inline void Test::is_greater<char>(const char& greater, const char& lesser) const {
     ++m_assertion_count;
     internal_assert_with_value_printing_greater(greater, lesser);
+}
+
+template<>
+inline void Test::is_greater<String_View>(const String_View& expected, const String_View& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_greater(expected, actual);
 }
 
 // GREATER OR EQUAL
@@ -1310,6 +1340,12 @@ template<>
 inline void Test::is_less<char>(const char& lesser, const char& greater) const {
     ++m_assertion_count;
     internal_assert_with_value_printing_less(lesser, greater);
+}
+
+template<>
+inline void Test::is_less<String_View>(const String_View& expected, const String_View& actual) const {
+    ++m_assertion_count;
+    internal_assert_with_value_printing_less(expected, actual);
 }
 
 // LESS OR EQUAL
