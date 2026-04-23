@@ -34,18 +34,20 @@ We provide this to allow for compatibility with C++11. For the sake of simplicit
 */
 class String_View final {
 public:
+    using Size_Type = std::size_t;
+
     String_View() = default;
     String_View(const char* source) :
         m_data { source },
         m_length { std::strlen(source) } { }
-    String_View(const char* source, std::size_t length) :
+    String_View(const char* source, Size_Type length) :
         m_data { source },
         m_length { length } { }
     String_View(const std::string& source) :
         m_data { source.data() },
         m_length { source.length() } { }
     
-    std::size_t get_length() const { return m_length; }
+    Size_Type get_length() const { return m_length; }
     bool is_empty() const { return m_length == 0; }
 
     std::string to_string() const {
@@ -55,22 +57,22 @@ public:
 
         std::string result {};
 
-        for (std::size_t i; i < m_length; ++i) {
+        for (Size_Type i; i < m_length; ++i) {
             result.push_back(*(m_data + i));
         }
 
         return result;
     }
 
-    char operator [](std::size_t index) { return *(m_data + index); }
-    char operator [](std::size_t index) const { return *(m_data + index); }
+    char operator [](Size_Type index) { return *(m_data + index); }
+    char operator [](Size_Type index) const { return *(m_data + index); }
     operator const char*() const { return m_data; }
 
     friend std::ostream& operator <<(std::ostream&, String_View);
 
 private:
     const char* m_data {};
-    std::size_t m_length {};
+    Size_Type m_length {};
 };
 
 inline std::ostream& operator <<(std::ostream& output, String_View string) {
