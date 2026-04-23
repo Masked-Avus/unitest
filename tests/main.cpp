@@ -1,4 +1,9 @@
 #include "unitest.hpp"
+
+#include "entity.hpp"
+#include "simple_math.hpp"
+#include "custom_exceptions.hpp"
+
 #include <string>
 #include <stdexcept>
 #include <iostream>
@@ -8,100 +13,7 @@
 
 using namespace unitest;
 
-namespace tests {
-
-class Entity final {
-public:
-    Entity(const std::string& name, int id) :
-        m_name { name },
-        m_id { id } { }
-
-    const std::string& get_name() const { return m_name; }
-    const int& get_id() const { return m_id; }
-
-    int get_hash() const { return m_id ^ sizeof(int); }
-
-private:
-    std::string m_name {};
-    int m_id {};
-};
-
-bool operator ==(const Entity& left, const Entity& right) { return left.get_id() == right.get_id(); }
-bool operator !=(const Entity& left, const Entity& right) { return left.get_id() != right.get_id(); }
-
-Group get_entity_tests() {
-    return Group("Entity")
-    .add({ "Entity::get_hash()", "returns expected hash value", [](const Test& assert) {
-        constexpr int value { 100 };
-        const Entity entity { "something", value };
-        
-        assert.are_equal(entity.get_hash(), static_cast<int>(value ^ sizeof(int)));
-    }})
-    .add({ "Entity::get_name()", "has expected name", [](const Test& assert) {
-        const std::string name { "Bob" };
-        const Entity entity { name, 8 };
-
-        assert.are_equal(name, entity.get_name());
-    }})
-    .add({ "Entity::get_id()", "has expected ID", [](const Test& assert) {
-        constexpr int id { 1000 };
-        const Entity entity { "another", id };
-
-        assert.are_equal(id, entity.get_id());
-    }})
-    .add({ "Entity::operator==", "returns true for equal entities", [](const Test& assert) {
-        constexpr int id { 1000 };
-        const Entity first { "first", id };
-        const Entity second { "second", id };
-
-        assert.are_equal(first, second);
-    }});
-}
-
-int add(int x, int y) { return x + y; }
-int sub(int x, int y) { return x + y; }
-int mul(int x, int y) { return x * y; }
-
-int div(int x, int y) {
-    if (y == 0) {
-        throw std::runtime_error("Cannot divide by 0");
-    }
-
-    return x / y;
-}
-
-int mod(int x, int y) {
-    if (y == 0) {
-        throw std::runtime_error("Cannot divide by 0");
-    }
-
-    return x % y;
-}
-
-class Custom_Base_Exception {
-public:
-    Custom_Base_Exception(const char* message) : m_message { message } { }
-
-    const char* what() const { return m_message.data(); }
-
-private:
-    std::string m_message {};
-};
-
-void throw_custom_base_exception() {
-    throw Custom_Base_Exception("BASE EXCEPTION");
-}
-
-class Custom_Derived_Exception final : public Custom_Base_Exception {
-public:
-    Custom_Derived_Exception(const char* message) : Custom_Base_Exception { message } { }
-};
-
-void throw_custom_derived_exception() {
-    throw Custom_Derived_Exception("DERIVED EXCEPTION");
-}
-
-}
+namespace tests = unitest::tests;
 
 void TestWithFunctionPointer_Passes(const Test& assert) {
     assert.is_true(true);
