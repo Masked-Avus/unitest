@@ -36,6 +36,13 @@ class String_View final {
 public:
     using Size_Type = std::size_t;
 
+    // Values are relative to the caller of a "compare()" call to its argument.
+    enum class Sort_Order {
+        Before = -1,
+        Same = 0,
+        After = 1
+    };
+
     String_View() = default;
     String_View(const char* source) :
         m_data { source },
@@ -81,12 +88,40 @@ public:
         return true;
     }
 
+    Sort_Order compare(String_View other) const {
+        const Size_Type iterations { (m_length < other.m_length) ? m_length : other.m_length };
+
+        for (Size_Type i {}; i < iterations; ++i) {
+            const char from_this { *(m_data + i) };
+            const char from_other { *(other.m_data + i) };
+
+            if (from_this > from_other) {
+                return Sort_Order::After;
+            }
+            else if (from_this < from_other) {
+                return Sort_Order::Before;
+            }
+        }
+
+        if (m_length < other.m_length) {
+            return Sort_Order::Before;
+        }
+        else if (m_length > other.m_length) {
+            return Sort_Order::After;
+        }
+        else {
+            return Sort_Order::Same;
+        }
+    }
+
     char operator [](Size_Type index) { return *(m_data + index); }
     char operator [](Size_Type index) const { return *(m_data + index); }
     operator const char*() const { return m_data; }
 
     friend bool operator ==(String_View left, String_View right);
     friend bool operator !=(String_View left, String_View right);
+    friend bool operator <(String_View left, String_View right);
+    friend bool operator >(String_View left, String_View right);
     friend std::ostream& operator <<(std::ostream&, String_View);
 
 private:
@@ -108,6 +143,14 @@ inline bool operator ==(String_View left, String_View right) {
 
 inline bool operator !=(String_View left, String_View right) {
     return !left.equals(right);
+}
+
+inline bool operator <(String_View left, String_View right) {
+    return left.compare(right) == String_View::Sort_Order::Before;
+}
+
+inline bool operator >(String_View left, String_View right) {
+    return left.compare(right) == String_View::Sort_Order::After;
 }
 
 enum class Status {
