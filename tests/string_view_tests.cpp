@@ -172,6 +172,26 @@ Group get_string_view_tests() {
             const char actual { view[index++] };
             assert.are_equal(expected, actual);
         }
+    }})
+    .add({ "String_View::slice", "returns new view with shrunk back", [](const Test& assert) {
+        const String_View original { s_lower_godzilla };
+        constexpr std::size_t removal_count { 5 };
+
+        const String_View expected { s_lower_godzilla, 3 };
+        const String_View actual { original.slice(5) };
+
+        assert.are_equal(expected, actual);
+    }})
+    .add({ "String_View::slice", "returns new view with strunk front and back", [](const Test& assert) {
+        const String_View original { s_upper_godzilla };
+        constexpr std::size_t front_removal_count { 3 };
+        constexpr std::size_t back_removal_count { 2 };
+        constexpr std::size_t length { 3 };
+
+        const String_View expected { s_upper_godzilla + front_removal_count, length };
+        const String_View actual { original.slice(front_removal_count, back_removal_count) };
+
+        assert.are_equal(expected, actual);
     }});
 }
 

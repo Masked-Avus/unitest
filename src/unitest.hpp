@@ -117,6 +117,19 @@ public:
         return result;
     }
 
+    String_View slice(Size_Type from_back) const {
+        String_View slice { *this };
+        slice.remove_back(from_back);
+        return slice;
+    }
+
+    String_View slice(Size_Type from_front, Size_Type from_back) const {
+        String_View slice { *this };
+        slice.remove_front(from_front);
+        slice.remove_back(from_back);
+        return slice;
+    }
+
     void remove_front(Size_Type count = 1) {
         if (count > m_length) {
             count = m_length;
