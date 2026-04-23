@@ -57,7 +57,7 @@ public:
 
         std::string result {};
 
-        for (Size_Type i; i < m_length; ++i) {
+        for (Size_Type i {}; i < m_length; ++i) {
             result.push_back(*(m_data + i));
         }
 
