@@ -1,6 +1,7 @@
-// Author: Masked Avus
-// Version: 1.3.0
-// License: MIT (see LICENSE.md)
+// Project:     UniTest
+// Author:      Masked Avus
+// Version:     1.4.0
+// License:     MIT (see LICENSE.md)
 
 #pragma once
 
