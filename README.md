@@ -26,13 +26,13 @@ tests.add({ "this_other_function", "passes", [](const unitest::Test& assert) {
 }});
 ```
 
-Should you run these tests, they will be placed under the `[UNGROUPED]` label within the output. That is because UniTest organizes all tests by `Group`. What we have done so far is add tests that are labelled as not belonging to a user-defined `Group`. To facilitate larger projects, we can define an explicit test `Group` and `add` it to the `Runner`.
+Should you run these tests, you will notice that they are placed under the `[UNGROUPED]` label within the output. That is because UniTest organizes all tests by `Group`. What we have done so far is add tests that are labelled as not belonging to a user-defined `Group`. To facilitate larger projects, we can define an explicit test `Group` and `add` it to the `Runner`.
 
 ```cpp
-tests.add("My_Class", {
-    { "method_1", "passes", Method1_Passes },
-    { "method_2", "passes", Method2_Passes }
-});
+tests.add(unitest::Group("My_Class")
+    .add({ "method_1", "passes", Method1_Passes })
+    .add({ "method_2", "passes", Method2_Passes })
+);
 ```
 
 Once all your tests are loaded and ready to go, just call the `run` method, which returns the number of failed tests.
@@ -42,7 +42,7 @@ const int failure_count { tests.run() };
 std::cout << "Tests failed: " << failure_count << std::endl;
 ```
 
-*Displaying the number of failed tests is not necessary, as `Runner` already does that after a pass.*
+*Using the return value of `Runner::run` just to print it to the console not necessary, as `Runner` already outputs the results to the output source of choice after running all tests.*
 
 ### Alternative Output
 
@@ -162,10 +162,10 @@ int main() {
     unitest::Runner tests {};
 
     // Add ungrouped tests.
-    tests.add("this_function", "returns expected number", ThisFunction_Passes);
-    tests.add("this_other_function", "returns expected calculation", [](const unitest::Test& assert) {
+    tests.add({ "this_function", "returns expected number", ThisFunction_Passes });
+    tests.add({ "this_other_function", "returns expected calculation", [](const unitest::Test& assert) {
         assert.are_equal(this_other_function(2, 10, 2), 10);
-    });
+    }});
 
     // Add grouped tests.
     tests.add({
