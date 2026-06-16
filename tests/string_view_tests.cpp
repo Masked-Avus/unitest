@@ -15,7 +15,7 @@ Group get_string_view_tests() {
 
         assert.are_equal(view.get_length(), std::strlen(s_godzilla));
 
-        for (int i {}; i < view.get_length(); ++i) {
+        for (std::size_t i {}; i < view.get_length(); ++i) {
             const char expected { s_godzilla[i] };
             const char actual { view[i] };
             assert.are_equal(expected, actual);
@@ -27,7 +27,7 @@ Group get_string_view_tests() {
 
         assert.are_equal(view.get_length(), str.length());
 
-        for (int i {}; i < view.get_length(); ++i) {
+        for (std::size_t i {}; i < view.get_length(); ++i) {
             const char expected { str[i] };
             const char actual { view[i] };
             assert.are_equal(expected, actual);
@@ -40,7 +40,7 @@ Group get_string_view_tests() {
 
         assert.are_equal(str.length(), copy.length()); 
 
-        for (int i {}; i < str.length(); ++i) {
+        for (std::size_t i {}; i < str.length(); ++i) {
             const char expected { str[i] };
             const char actual { copy[i] };
             assert.are_equal(expected, actual);
@@ -175,7 +175,6 @@ Group get_string_view_tests() {
     }})
     .add({ "String_View::slice", "returns new view with shrunk back", [](const Test& assert) {
         const String_View original { s_lower_godzilla };
-        constexpr std::size_t removal_count { 5 };
 
         const String_View expected { s_lower_godzilla, 3 };
         const String_View actual { original.slice(5) };

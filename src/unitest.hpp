@@ -1,6 +1,6 @@
 // Project:     UniTest
 // Author:      Masked Avus
-// Version:     1.4.0
+// Version:     1.4.1
 // License:     MIT (see LICENSE.md)
 
 #pragma once
@@ -188,7 +188,7 @@ public:
             if (is_same_with_different_case) {
                 continue;
             }
-            else if (from_other != from_other) {
+            else if (from_this != from_other) {
                 return false;
             }
         }
@@ -578,9 +578,9 @@ public: // Assertions
     }
     
 private:
-    std::function<void(const Test&)> m_function {};
     std::string m_subject {};
     std::string m_expected_result {};
+    std::function<void(const Test&)> m_function {};
     Status m_status { Status::Pending };
     // Stops at the first failed assertion.
     mutable int m_assertion_count {};
